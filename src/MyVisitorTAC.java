@@ -1,7 +1,11 @@
-public class MyVisitorTAC extends TACBaseVisitor<Double>{
+import java.util.HashMap;
+import java.util.Map;
+
+public class MyVisitorTAC extends TACBaseVisitor<Node>{
+    Map<String, Double> memory = new HashMap<String, Double>();
 
     @Override
-    public Double visitProgram(TACParser.ProgramContext ctx) {
+    public Node visitProgram(TACParser.ProgramContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -11,8 +15,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitSmts(TACParser.SmtsContext ctx) {
-        System.out.println("Entró a visitSmt");
+    public Node visitSmts(TACParser.SmtsContext ctx) {
+
         return visitChildren(ctx);
     }
     /**
@@ -22,7 +26,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitStmtAssign(TACParser.StmtAssignContext ctx) {
+    public Node visitStmtAssign(TACParser.StmtAssignContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -32,7 +36,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitStmtIfCondition(TACParser.StmtIfConditionContext ctx) {
+    public Node visitStmtIfCondition(TACParser.StmtIfConditionContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -42,16 +46,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitStmtPrint(TACParser.StmtPrintContext ctx) {
-        return visitChildren(ctx);
-    }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
-    @Override public Double visitStmtGoTo(TACParser.StmtGoToContext ctx) {
+    public Node visitStmtPrint(TACParser.StmtPrintContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -61,7 +56,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitAssignIdNumOrId(TACParser.AssignIdNumOrIdContext ctx) {
+    public Node visitStmtGoTo(TACParser.StmtGoToContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -71,7 +66,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitAssignIdOperation(TACParser.AssignIdOperationContext ctx) {
+    public Node visitAssignIdNumOrId(TACParser.AssignIdNumOrIdContext ctx) {
+        System.out.println("assign" + ctx.children.get(0) );
+        System.out.println("assign" + ctx.children.get(1) );
+        System.out.println("assign" + ctx.children.get(2) );
         return visitChildren(ctx);
     }
     /**
@@ -81,7 +79,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitAssignIdArray(TACParser.AssignIdArrayContext ctx) {
+    public Node visitAssignIdOperation(TACParser.AssignIdOperationContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -91,7 +89,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitAssignArrayNumOrId(TACParser.AssignArrayNumOrIdContext ctx) {
+    public Node visitAssignIdArray(TACParser.AssignIdArrayContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -101,7 +99,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitIfConditionTrue(TACParser.IfConditionTrueContext ctx) {
+    public Node visitAssignArrayNumOrId(TACParser.AssignArrayNumOrIdContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -111,7 +109,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitIfConditionFalse(TACParser.IfConditionFalseContext ctx) {
+    public Node visitIfConditionTrue(TACParser.IfConditionTrueContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -121,7 +119,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitConditionGreater(TACParser.ConditionGreaterContext ctx) {
+    public Node visitIfConditionFalse(TACParser.IfConditionFalseContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -131,7 +129,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitConditionGreaterEqual(TACParser.ConditionGreaterEqualContext ctx) {
+    public Node visitConditionGreater(TACParser.ConditionGreaterContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -141,7 +139,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitConditionLess(TACParser.ConditionLessContext ctx) {
+    public Node visitConditionGreaterEqual(TACParser.ConditionGreaterEqualContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -151,7 +149,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitConditionLessEqual(TACParser.ConditionLessEqualContext ctx) {
+    public Node visitConditionLess(TACParser.ConditionLessContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -161,7 +159,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitConditionEqual(TACParser.ConditionEqualContext ctx) {
+    public Node visitConditionLessEqual(TACParser.ConditionLessEqualContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -171,7 +169,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitConditionDifferent(TACParser.ConditionDifferentContext ctx) {
+    public Node visitConditionEqual(TACParser.ConditionEqualContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -181,7 +179,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitGoToNumOrId(TACParser.GoToNumOrIdContext ctx) {
+    public Node visitConditionDifferent(TACParser.ConditionDifferentContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -191,7 +189,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitPrintNumOrId(TACParser.PrintNumOrIdContext ctx) {
+    public Node visitGoToNumOrId(TACParser.GoToNumOrIdContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -201,7 +199,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitPrintArray(TACParser.PrintArrayContext ctx) {
+    public Node visitPrintNumOrId(TACParser.PrintNumOrIdContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -211,7 +209,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitPrintOperation(TACParser.PrintOperationContext ctx) {
+    public Node visitPrintArray(TACParser.PrintArrayContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -221,7 +219,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitArrayNum(TACParser.ArrayNumContext ctx) {
+    public Node visitPrintOperation(TACParser.PrintOperationContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -231,7 +229,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitOperationAdd(TACParser.OperationAddContext ctx) {
+    public Node visitArrayNum(TACParser.ArrayNumContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -241,7 +239,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitOperationSubstract(TACParser.OperationSubstractContext ctx) {
+    public Node visitOperationAdd(TACParser.OperationAddContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -251,16 +249,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitOperationMultiply(TACParser.OperationMultiplyContext ctx) {
-        return visitChildren(ctx);
-    }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
-    @Override public Double visitOperationDivide(TACParser.OperationDivideContext ctx) {
+    public Node visitOperationSubstract(TACParser.OperationSubstractContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -270,7 +259,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
-    public Double visitOperationModule(TACParser.OperationModuleContext ctx) {
+    public Node visitOperationMultiply(TACParser.OperationMultiplyContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -279,7 +268,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public Double visitNumber(TACParser.NumberContext ctx) {
+    @Override
+    public Node visitOperationDivide(TACParser.OperationDivideContext ctx) {
         return visitChildren(ctx);
     }
     /**
@@ -288,7 +278,30 @@ public class MyVisitorTAC extends TACBaseVisitor<Double>{
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
-    @Override public Double visitId(TACParser.IdContext ctx) {
+    @Override
+    public Node visitOperationModule(TACParser.OperationModuleContext ctx) {
+        return visitChildren(ctx);
+    }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public Node visitNumber(TACParser.NumberContext ctx) {
+        System.out.println("get0"+ctx.children.get(0));
+        int number = Integer.parseInt(ctx.INT().getText());
+        return new Number(number);
+    }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public Node visitId(TACParser.IdContext ctx) {
         return visitChildren(ctx);
     }
 }
