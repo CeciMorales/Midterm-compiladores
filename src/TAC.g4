@@ -1,53 +1,58 @@
 grammar TAC;
 
-program : block  ;
+program : stmts*
+        ;
 
-block : '{' stmts  '}'
+stmts : NEWLINE? (ID ':' )? stmt NEWLINE #Smts
       ;
 
-stmts : stmts stmt
-      |
-      ;
-
-stmt :  expr
-     | 'ifTrue' '(' expr ')' stmt
-     | 'ifFalse' '(' expr ')' stmt
-     | 'while' '(' expr ')' stmt
-     | 'do' stmt 'while' '(' expr ')'
-     | 'print' '(' expr ')'
-     | block
+stmt :  assign #StmtAssign
+     |  ifCondition #StmtIfCondition
+     |  print #StmtPrint
+     |  goTo #StmtGoTo
      ;
 
-expr : acc '=' expr
-     | rel
-     ;
-
-acc  :  ID
-     |  ID '[' expr ']'
-     ;
-
-rel  : rel '<' add
-     | rel '<=' add
-     | rel '!=' add
-     | rel '==' add
-     | add
-     ;
-
-add  : add '+' term
-     | add '-' term
-     | term
-     ;
-
-term : term '*' factor
-     | term '/' factor
-     | factor
-     ;
-
-factor : '(' expr ')'
-       | acc
-       | NUM
+assign : ID '=' numOrId #AssignIdNumOrId
+       | ID '=' operation #AssignIdOperation
+       | ID '=' array #AssignIdArray
+       | array '=' numOrId #AssignArrayNumOrId
        ;
 
-NUM : [0-9]+;
-ID : [A-Za-z][0-9A-Za-z]*;
-WS: [ \t\r\n]+ -> skip;
+ifCondition : 'ifTrue' condition goTo #IfConditionTrue
+            | 'ifFalse' condition goTo #IfConditionFalse
+            ;
+
+condition : numOrId '>' numOrId #ConditionGreater
+          | numOrId '>=' numOrId #ConditionGreaterEqual
+          | numOrId '<' numOrId #ConditionLess
+          | numOrId '<=' numOrId #ConditionLessEqual
+          | numOrId '==' numOrId #ConditionEqual
+          | numOrId '!=' numOrId #ConditionDifferent
+          ;
+
+goTo : 'goTo' numOrId #GoToNumOrId
+     ;
+
+print : 'print' '(' numOrId ')' #PrintNumOrId
+      | 'print' '(' array ')' #PrintArray
+      | 'print' '(' operation ')' #PrintOperation
+      ;
+
+array : ID '[' numOrId ']' #ArrayNum
+      ;
+
+operation : numOrId '+' numOrId #OperationAdd
+          | numOrId '-' numOrId #OperationSubstract
+          | numOrId '*' numOrId #OperationMultiply
+          | numOrId '/' numOrId #OperationDivide
+          | numOrId '%' numOrId #OperationModule
+          ;
+
+numOrId : INT #Number
+        | ID #Id
+        ;
+
+ID:         [a-zA-Z]+;
+INT:        [0-9]+;
+NEWLINE:    '\r'? '\n';
+WS:         [ \t]+ -> skip;
