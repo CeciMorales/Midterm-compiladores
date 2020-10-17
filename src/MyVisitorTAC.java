@@ -67,10 +67,12 @@ public class MyVisitorTAC extends TACBaseVisitor<Node>{
      */
     @Override
     public Node visitAssignIdNumOrId(TACParser.AssignIdNumOrIdContext ctx) {
-        System.out.println("assign" + ctx.children.get(0) );
+
+
         System.out.println("assign" + ctx.children.get(1) );
         System.out.println("assign" + ctx.children.get(2) );
         return visitChildren(ctx);
+
     }
     /**
      * {@inheritDoc}
@@ -80,6 +82,9 @@ public class MyVisitorTAC extends TACBaseVisitor<Node>{
      */
     @Override
     public Node visitAssignIdOperation(TACParser.AssignIdOperationContext ctx) {
+        System.out.println("assignOperation: " + ctx.children.get(0) );
+
+
         return visitChildren(ctx);
     }
     /**
@@ -290,7 +295,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Node>{
      */
     @Override
     public Node visitNumber(TACParser.NumberContext ctx) {
-        System.out.println("get0"+ctx.children.get(0));
+        System.out.println("get0 "+ctx.children.get(0));
         int number = Integer.parseInt(ctx.INT().getText());
         return new Number(number);
     }
@@ -302,6 +307,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Node>{
      */
     @Override
     public Node visitId(TACParser.IdContext ctx) {
+        System.out.println("visit ID: "+ctx.children.get(0));
         return visitChildren(ctx);
     }
 }

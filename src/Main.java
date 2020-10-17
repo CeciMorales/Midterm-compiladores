@@ -27,18 +27,21 @@ public class Main {
             TACParser parser = new TACParser(tokens);
 
             ParseTree tree = parser.program();
-            System.out.println(tree.toStringTree(parser));
+            System.out.println("tree:" + tree.toStringTree(parser));
 
             MyVisitorTAC visitorTAC = new MyVisitorTAC();
             visitorTAC.visit(tree);
 
             //Node n = visitorTAC.visit(tree);
             //n.gen();
+
+
             out.close();
         }
         catch(Exception e) {
             System.out.println("Error " + e );
+            out.close();
         }
-        out.close();
+
     }
 }

@@ -1,9 +1,8 @@
-public class Id extends Stmt{
+public class Id extends Expr{
     String id;
 
     public Id(String id) {
         id = id;
-
     }
 
     public void gen() {

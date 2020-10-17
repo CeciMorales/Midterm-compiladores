@@ -1,4 +1,4 @@
-public class Number extends Stmt{
+public class Number extends Expr{
     int numero;
 
     public Number(int numero) {
