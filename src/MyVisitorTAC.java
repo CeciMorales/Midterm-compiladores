@@ -2,7 +2,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
-    Map<String, Double> memory = new HashMap<String, Double>();
+    Map<String, Integer> memory = new HashMap<String, Integer>();
+
+    Stmt stmt = new Stmt();
 
     @Override
     public Stmt visitProgram(TACParser.ProgramContext ctx) {
@@ -70,18 +72,28 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         String id = ctx.ID().getText();
         Id identificador = new Id(id);
 
+
         if ( ctx.children.get(2) instanceof TACParser.NumberContext ) {
 
             int aux =  Integer.parseInt(ctx.children.get(2).getText());
             NumOrId number = new NumOrId(aux);
             System.out.println("number" + number.number);
-            return new Assign(identificador, number);
+            Assign assign = new Assign(identificador, number);
+            memory.put(id, aux);
+
+            return assign;
 
         } else if ( ctx.children.get(2) instanceof TACParser.IdContext ) {
 
             String aux =  ctx.children.get(2).getText();
             NumOrId id1 = new NumOrId (aux);
             System.out.println("id" + id1.id);
+            if (memory.containsKey(aux)) {
+                memory.put(id, memory.get(aux));
+            }
+
+
+            // stmt.memoryVariables.put(id, aux);
             return new Assign(identificador, id1);
         }
         return visitChildren(ctx);
@@ -95,8 +107,9 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitAssignIdOperation(TACParser.AssignIdOperationContext ctx) {
-
+        String idVar = ctx.children.get(0).getText();
         String signo;
+        int result;
 
         if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
                 ctx.children.get(2).getChild(2) instanceof TACParser.NumberContext) {
@@ -109,11 +122,11 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             int right =  Integer.parseInt(ctx.children.get(2).getChild(2).getText());
             NumOrId number2 = new NumOrId(right);
 
-            System.out.println("left: " + number1);
-            System.out.println("signo: " + signo);
-            System.out.println("right: " + number2);
-
             Operation operation = new Operation(number1, signo, number2);
+            System.out.println("operation " + operation.makeOperation());
+            result = operation.makeOperation();
+
+            memory.put(idVar, result);
 
             return operation;
 
@@ -121,20 +134,23 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 ctx.children.get(2).getChild(2) instanceof TACParser.NumberContext) {
 
             String left =  ctx.children.get(2).getChild(0).getText();
-            NumOrId id = new NumOrId(left);
 
-            signo = ctx.children.get(2).getChild(1).getText();
+            if (memory.containsKey(left)) {
 
-            int right =  Integer.parseInt(ctx.children.get(2).getChild(2).getText());
-            NumOrId number2 = new NumOrId(right);
+                NumOrId id = new NumOrId(memory.get(left));
 
-            System.out.println("left: " + id);
-            System.out.println("signo: " + signo);
-            System.out.println("right: " + number2);
+                signo = ctx.children.get(2).getChild(1).getText();
 
-            Operation operation = new Operation(id, signo, number2);
+                int right =  Integer.parseInt(ctx.children.get(2).getChild(2).getText());
+                NumOrId number2 = new NumOrId(right);
 
-            return operation;
+                Operation operation = new Operation(id, signo, number2);
+                result = operation.makeOperation();
+                memory.put(idVar, result);
+
+                System.out.println("memory" + memory);
+                return operation;
+            }
 
         } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
                 ctx.children.get(2).getChild(2) instanceof TACParser.IdContext) {
@@ -148,9 +164,6 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String right =  ctx.children.get(2).getChild(2).getText();
             NumOrId id = new NumOrId(right);
 
-            System.out.println("left: " + number);
-            System.out.println("signo: " + signo);
-            System.out.println("right: " + id);
 
             Operation operation = new Operation(number, signo, id);
 
@@ -167,9 +180,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String right =  ctx.children.get(2).getChild(2).getText();
             NumOrId id2 = new NumOrId(right);
 
-            System.out.println("left: " + id);
-            System.out.println("signo: " + signo);
-            System.out.println("right: " + id2);
+
 
             Operation operation = new Operation(id, signo, id2);
 
@@ -337,6 +348,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitOperationAdd(TACParser.OperationAddContext ctx) {
+
         return visitChildren(ctx);
     }
     /**
@@ -399,7 +411,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitId(TACParser.IdContext ctx) {
-        System.out.println("visit ID: "+ctx.children.get(0));
+        String id = ctx.children.get(0).getText();
+        System.out.println("visit ID: "+ id);
         return visitChildren(ctx);
     }
 }

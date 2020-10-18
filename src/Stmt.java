@@ -3,8 +3,8 @@ import java.util.Map;
 
 public class Stmt {
 
-    Map<String, Double> memoryVaribles = new HashMap<String, Double>();
-    Map<String, Double> memoryLabels = new HashMap<String, Double>();
+    Map<String, Integer> memoryVariables = new HashMap<String, Integer>();
+    Map<String, Integer> memoryLabels = new HashMap<String, Integer>();
 
 
     public void gen(){

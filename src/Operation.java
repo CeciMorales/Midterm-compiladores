@@ -12,7 +12,7 @@ public class Operation extends Stmt{
     }
 
 
-    public int makeOperation(String signo){
+    public int makeOperation(){
         switch (signo){
             case "+":
                 return leftValue.getVal() + rightValue.getVal();
