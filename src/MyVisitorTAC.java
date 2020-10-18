@@ -162,30 +162,40 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             signo = ctx.children.get(2).getChild(1).getText();
 
             String right =  ctx.children.get(2).getChild(2).getText();
-            NumOrId id = new NumOrId(right);
 
+            if (memory.containsKey(right)) {
+                NumOrId id = new NumOrId(memory.get(right));
 
-            Operation operation = new Operation(number, signo, id);
+                Operation operation = new Operation(number, signo, id);
+                result = operation.makeOperation();
+                memory.put(idVar, result);
 
-            return operation;
+                System.out.println("memory" + memory);
+
+                return operation;
+            }
 
         } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.IdContext &&
                 ctx.children.get(2).getChild(2) instanceof TACParser.IdContext) {
 
             String left =  ctx.children.get(2).getChild(0).getText();
-            NumOrId id = new NumOrId(left);
-
-            signo = ctx.children.get(2).getChild(1).getText();
-
             String right =  ctx.children.get(2).getChild(2).getText();
-            NumOrId id2 = new NumOrId(right);
 
+            if (memory.containsKey(left) && memory.containsKey(right)) {
 
+                NumOrId id = new NumOrId(memory.get(left));
+                signo = ctx.children.get(2).getChild(1).getText();
+                NumOrId id2 = new NumOrId(memory.get(right));
 
-            Operation operation = new Operation(id, signo, id2);
+                Operation operation = new Operation(id, signo, id2);
+                result = operation.makeOperation();
+                memory.put(idVar, result);
 
-            return operation;
+                System.out.println("memory" + memory);
 
+                return operation;
+
+            }
         }
 
         return visitChildren(ctx);
@@ -216,6 +226,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      * <p>The default implementation returns the result of calling
      * {@link #visitChildren} on {@code ctx}.</p>
      */
+
     @Override
     public Stmt visitIfConditionTrue(TACParser.IfConditionTrueContext ctx) {
         return visitChildren(ctx);
@@ -308,6 +319,32 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitPrintNumOrId(TACParser.PrintNumOrIdContext ctx) {
+
+        System.out.println("numero print: " + ctx.children.get(2).getText());
+
+        if ( ctx.children.get(2) instanceof TACParser.NumberContext ) {
+
+            int aux =  Integer.parseInt(ctx.children.get(2).getText());
+            NumOrId number = new NumOrId(aux);
+
+
+            Print print = new Print(aux);
+            System.out.println("print " + aux);
+
+            return print;
+
+        } else if ( ctx.children.get(2) instanceof TACParser.IdContext ) {
+
+            String aux =  ctx.children.get(2).getText();
+            NumOrId id1 = new NumOrId (aux);
+
+            if (memory.containsKey(aux)) {
+                Print print = new Print(memory.get(aux));
+                System.out.println("print " +  memory.get(aux));
+
+            }
+        }
+
         return visitChildren(ctx);
     }
     /**
