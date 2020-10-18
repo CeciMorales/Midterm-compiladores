@@ -3,8 +3,10 @@ import java.util.Map;
 
 public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
     Map<String, Integer> memory = new HashMap<String, Integer>();
+    Map<String, Integer> labels = new HashMap<String, Integer>();
 
     Stmt stmt = new Stmt();
+
 
     @Override
     public Stmt visitProgram(TACParser.ProgramContext ctx) {
@@ -18,6 +20,18 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitSmts(TACParser.SmtsContext ctx) {
+        stmt.counter += 1;
+        System.out.println("counter: " + stmt.counter);
+
+        if (ctx.ID() != null){
+            System.out.println("Si hay label");
+            String label =  ctx.children.get(0).getText();
+            labels.put(label, stmt.counter);
+            System.out.println("label map: " + labels);
+
+        }
+
+
 
         return visitChildren(ctx);
     }
@@ -59,6 +73,15 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitStmtGoTo(TACParser.StmtGoToContext ctx) {
+        System.out.println("goto -> " + ctx.children.get(0).getChild(1).getText());
+        String aux = ctx.children.get(0).getChild(1).getText();
+        if (labels.containsKey(aux)) {
+            int line = labels.get(aux);
+
+        }
+
+
+
         return visitChildren(ctx);
     }
     /**

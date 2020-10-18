@@ -125,7 +125,7 @@ public class TACParser extends Parser {
 			setState(25);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__10) | (1L << T__11) | (1L << ID) | (1L << NEWLINE))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__10) | (1L << T__11) | (1L << ID))) != 0)) {
 				{
 				{
 				setState(22);
@@ -164,10 +164,7 @@ public class TACParser extends Parser {
 		public StmtContext stmt() {
 			return getRuleContext(StmtContext.class,0);
 		}
-		public List<TerminalNode> NEWLINE() { return getTokens(TACParser.NEWLINE); }
-		public TerminalNode NEWLINE(int i) {
-			return getToken(TACParser.NEWLINE, i);
-		}
+		public TerminalNode NEWLINE() { return getToken(TACParser.NEWLINE, 0); }
 		public TerminalNode ID() { return getToken(TACParser.ID, 0); }
 		public SmtsContext(StmtsContext ctx) { copyFrom(ctx); }
 		@Override
@@ -180,36 +177,25 @@ public class TACParser extends Parser {
 	public final StmtsContext stmts() throws RecognitionException {
 		StmtsContext _localctx = new StmtsContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_stmts);
-		int _la;
 		try {
 			_localctx = new SmtsContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
+			setState(30);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==NEWLINE) {
-				{
-				setState(28);
-				match(NEWLINE);
-				}
-			}
-
-			setState(33);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				{
-				setState(31);
+				setState(28);
 				match(ID);
-				setState(32);
+				setState(29);
 				match(T__0);
 				}
 				break;
 			}
-			setState(35);
+			setState(32);
 			stmt();
-			setState(36);
+			setState(33);
 			match(NEWLINE);
 			}
 		}
@@ -284,14 +270,14 @@ public class TACParser extends Parser {
 		StmtContext _localctx = new StmtContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_stmt);
 		try {
-			setState(42);
+			setState(39);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new StmtAssignContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(38);
+				setState(35);
 				assign();
 				}
 				break;
@@ -300,7 +286,7 @@ public class TACParser extends Parser {
 				_localctx = new StmtIfConditionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(39);
+				setState(36);
 				ifCondition();
 				}
 				break;
@@ -308,7 +294,7 @@ public class TACParser extends Parser {
 				_localctx = new StmtPrintContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(40);
+				setState(37);
 				print();
 				}
 				break;
@@ -316,7 +302,7 @@ public class TACParser extends Parser {
 				_localctx = new StmtGoToContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(41);
+				setState(38);
 				goTo();
 				}
 				break;
@@ -401,18 +387,18 @@ public class TACParser extends Parser {
 		AssignContext _localctx = new AssignContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_assign);
 		try {
-			setState(57);
+			setState(54);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				_localctx = new AssignIdNumOrIdContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(44);
+				setState(41);
 				match(ID);
-				setState(45);
+				setState(42);
 				match(T__1);
-				setState(46);
+				setState(43);
 				numOrId();
 				}
 				break;
@@ -420,11 +406,11 @@ public class TACParser extends Parser {
 				_localctx = new AssignIdOperationContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(47);
+				setState(44);
 				match(ID);
-				setState(48);
+				setState(45);
 				match(T__1);
-				setState(49);
+				setState(46);
 				operation();
 				}
 				break;
@@ -432,11 +418,11 @@ public class TACParser extends Parser {
 				_localctx = new AssignIdArrayContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(50);
+				setState(47);
 				match(ID);
-				setState(51);
+				setState(48);
 				match(T__1);
-				setState(52);
+				setState(49);
 				array();
 				}
 				break;
@@ -444,11 +430,11 @@ public class TACParser extends Parser {
 				_localctx = new AssignArrayNumOrIdContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(53);
+				setState(50);
 				array();
-				setState(54);
+				setState(51);
 				match(T__1);
-				setState(55);
+				setState(52);
 				numOrId();
 				}
 				break;
@@ -509,18 +495,18 @@ public class TACParser extends Parser {
 		IfConditionContext _localctx = new IfConditionContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_ifCondition);
 		try {
-			setState(67);
+			setState(64);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__2:
 				_localctx = new IfConditionTrueContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(59);
+				setState(56);
 				match(T__2);
-				setState(60);
+				setState(57);
 				condition();
-				setState(61);
+				setState(58);
 				goTo();
 				}
 				break;
@@ -528,11 +514,11 @@ public class TACParser extends Parser {
 				_localctx = new IfConditionFalseContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(63);
+				setState(60);
 				match(T__3);
-				setState(64);
+				setState(61);
 				condition();
-				setState(65);
+				setState(62);
 				goTo();
 				}
 				break;
@@ -651,18 +637,18 @@ public class TACParser extends Parser {
 		ConditionContext _localctx = new ConditionContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_condition);
 		try {
-			setState(93);
+			setState(90);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				_localctx = new ConditionGreaterContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(69);
+				setState(66);
 				numOrId();
-				setState(70);
+				setState(67);
 				match(T__4);
-				setState(71);
+				setState(68);
 				numOrId();
 				}
 				break;
@@ -670,11 +656,11 @@ public class TACParser extends Parser {
 				_localctx = new ConditionGreaterEqualContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(73);
+				setState(70);
 				numOrId();
-				setState(74);
+				setState(71);
 				match(T__5);
-				setState(75);
+				setState(72);
 				numOrId();
 				}
 				break;
@@ -682,11 +668,11 @@ public class TACParser extends Parser {
 				_localctx = new ConditionLessContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(77);
+				setState(74);
 				numOrId();
-				setState(78);
+				setState(75);
 				match(T__6);
-				setState(79);
+				setState(76);
 				numOrId();
 				}
 				break;
@@ -694,11 +680,11 @@ public class TACParser extends Parser {
 				_localctx = new ConditionLessEqualContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(81);
+				setState(78);
 				numOrId();
-				setState(82);
+				setState(79);
 				match(T__7);
-				setState(83);
+				setState(80);
 				numOrId();
 				}
 				break;
@@ -706,11 +692,11 @@ public class TACParser extends Parser {
 				_localctx = new ConditionEqualContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(85);
+				setState(82);
 				numOrId();
-				setState(86);
+				setState(83);
 				match(T__8);
-				setState(87);
+				setState(84);
 				numOrId();
 				}
 				break;
@@ -718,11 +704,11 @@ public class TACParser extends Parser {
 				_localctx = new ConditionDifferentContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(89);
+				setState(86);
 				numOrId();
-				setState(90);
+				setState(87);
 				match(T__9);
-				setState(91);
+				setState(88);
 				numOrId();
 				}
 				break;
@@ -769,9 +755,9 @@ public class TACParser extends Parser {
 			_localctx = new GoToNumOrIdContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95);
+			setState(92);
 			match(T__10);
-			setState(96);
+			setState(93);
 			numOrId();
 			}
 		}
@@ -835,20 +821,20 @@ public class TACParser extends Parser {
 		PrintContext _localctx = new PrintContext(_ctx, getState());
 		enterRule(_localctx, 14, RULE_print);
 		try {
-			setState(113);
+			setState(110);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				_localctx = new PrintNumOrIdContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(98);
+				setState(95);
 				match(T__11);
-				setState(99);
+				setState(96);
 				match(T__12);
-				setState(100);
+				setState(97);
 				numOrId();
-				setState(101);
+				setState(98);
 				match(T__13);
 				}
 				break;
@@ -856,13 +842,13 @@ public class TACParser extends Parser {
 				_localctx = new PrintArrayContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(103);
+				setState(100);
 				match(T__11);
-				setState(104);
+				setState(101);
 				match(T__12);
-				setState(105);
+				setState(102);
 				array();
-				setState(106);
+				setState(103);
 				match(T__13);
 				}
 				break;
@@ -870,13 +856,13 @@ public class TACParser extends Parser {
 				_localctx = new PrintOperationContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(108);
+				setState(105);
 				match(T__11);
-				setState(109);
+				setState(106);
 				match(T__12);
-				setState(110);
+				setState(107);
 				operation();
-				setState(111);
+				setState(108);
 				match(T__13);
 				}
 				break;
@@ -924,13 +910,13 @@ public class TACParser extends Parser {
 			_localctx = new ArrayNumContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(115);
+			setState(112);
 			match(ID);
-			setState(116);
+			setState(113);
 			match(T__14);
-			setState(117);
+			setState(114);
 			numOrId();
-			setState(118);
+			setState(115);
 			match(T__15);
 			}
 		}
@@ -1031,18 +1017,18 @@ public class TACParser extends Parser {
 		OperationContext _localctx = new OperationContext(_ctx, getState());
 		enterRule(_localctx, 18, RULE_operation);
 		try {
-			setState(140);
+			setState(137);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				_localctx = new OperationAddContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(120);
+				setState(117);
 				numOrId();
-				setState(121);
+				setState(118);
 				match(T__16);
-				setState(122);
+				setState(119);
 				numOrId();
 				}
 				break;
@@ -1050,11 +1036,11 @@ public class TACParser extends Parser {
 				_localctx = new OperationSubstractContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(124);
+				setState(121);
 				numOrId();
-				setState(125);
+				setState(122);
 				match(T__17);
-				setState(126);
+				setState(123);
 				numOrId();
 				}
 				break;
@@ -1062,11 +1048,11 @@ public class TACParser extends Parser {
 				_localctx = new OperationMultiplyContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(128);
+				setState(125);
 				numOrId();
-				setState(129);
+				setState(126);
 				match(T__18);
-				setState(130);
+				setState(127);
 				numOrId();
 				}
 				break;
@@ -1074,11 +1060,11 @@ public class TACParser extends Parser {
 				_localctx = new OperationDivideContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(132);
+				setState(129);
 				numOrId();
-				setState(133);
+				setState(130);
 				match(T__19);
-				setState(134);
+				setState(131);
 				numOrId();
 				}
 				break;
@@ -1086,11 +1072,11 @@ public class TACParser extends Parser {
 				_localctx = new OperationModuleContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(136);
+				setState(133);
 				numOrId();
-				setState(137);
+				setState(134);
 				match(T__20);
-				setState(138);
+				setState(135);
 				numOrId();
 				}
 				break;
@@ -1141,14 +1127,14 @@ public class TACParser extends Parser {
 		NumOrIdContext _localctx = new NumOrIdContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_numOrId);
 		try {
-			setState(144);
+			setState(141);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INT:
 				_localctx = new NumberContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(142);
+				setState(139);
 				match(INT);
 				}
 				break;
@@ -1156,7 +1142,7 @@ public class TACParser extends Parser {
 				_localctx = new IdContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(143);
+				setState(140);
 				match(ID);
 				}
 				break;
@@ -1176,46 +1162,45 @@ public class TACParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\33\u0095\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\33\u0092\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\3\2\7\2\32\n\2\f\2\16\2\35\13\2\3\3\5\3 \n\3\3\3\3\3\5\3"+
-		"$\n\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\5\4-\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\5\5<\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6"+
-		"F\n\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7`\n\7\3\b\3\b\3\b\3\t\3\t\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\tt\n\t\3\n\3\n\3\n\3\n"+
-		"\3\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13"+
-		"\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13\u008f\n\13\3\f\3\f\5\f\u0093"+
-		"\n\f\3\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26\2\2\2\u009f\2\33\3\2\2\2\4\37"+
-		"\3\2\2\2\6,\3\2\2\2\b;\3\2\2\2\nE\3\2\2\2\f_\3\2\2\2\16a\3\2\2\2\20s\3"+
-		"\2\2\2\22u\3\2\2\2\24\u008e\3\2\2\2\26\u0092\3\2\2\2\30\32\5\4\3\2\31"+
-		"\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\3\3\2\2\2\35"+
-		"\33\3\2\2\2\36 \7\32\2\2\37\36\3\2\2\2\37 \3\2\2\2 #\3\2\2\2!\"\7\30\2"+
-		"\2\"$\7\3\2\2#!\3\2\2\2#$\3\2\2\2$%\3\2\2\2%&\5\6\4\2&\'\7\32\2\2\'\5"+
-		"\3\2\2\2(-\5\b\5\2)-\5\n\6\2*-\5\20\t\2+-\5\16\b\2,(\3\2\2\2,)\3\2\2\2"+
-		",*\3\2\2\2,+\3\2\2\2-\7\3\2\2\2./\7\30\2\2/\60\7\4\2\2\60<\5\26\f\2\61"+
-		"\62\7\30\2\2\62\63\7\4\2\2\63<\5\24\13\2\64\65\7\30\2\2\65\66\7\4\2\2"+
-		"\66<\5\22\n\2\678\5\22\n\289\7\4\2\29:\5\26\f\2:<\3\2\2\2;.\3\2\2\2;\61"+
-		"\3\2\2\2;\64\3\2\2\2;\67\3\2\2\2<\t\3\2\2\2=>\7\5\2\2>?\5\f\7\2?@\5\16"+
-		"\b\2@F\3\2\2\2AB\7\6\2\2BC\5\f\7\2CD\5\16\b\2DF\3\2\2\2E=\3\2\2\2EA\3"+
-		"\2\2\2F\13\3\2\2\2GH\5\26\f\2HI\7\7\2\2IJ\5\26\f\2J`\3\2\2\2KL\5\26\f"+
-		"\2LM\7\b\2\2MN\5\26\f\2N`\3\2\2\2OP\5\26\f\2PQ\7\t\2\2QR\5\26\f\2R`\3"+
-		"\2\2\2ST\5\26\f\2TU\7\n\2\2UV\5\26\f\2V`\3\2\2\2WX\5\26\f\2XY\7\13\2\2"+
-		"YZ\5\26\f\2Z`\3\2\2\2[\\\5\26\f\2\\]\7\f\2\2]^\5\26\f\2^`\3\2\2\2_G\3"+
-		"\2\2\2_K\3\2\2\2_O\3\2\2\2_S\3\2\2\2_W\3\2\2\2_[\3\2\2\2`\r\3\2\2\2ab"+
-		"\7\r\2\2bc\5\26\f\2c\17\3\2\2\2de\7\16\2\2ef\7\17\2\2fg\5\26\f\2gh\7\20"+
-		"\2\2ht\3\2\2\2ij\7\16\2\2jk\7\17\2\2kl\5\22\n\2lm\7\20\2\2mt\3\2\2\2n"+
-		"o\7\16\2\2op\7\17\2\2pq\5\24\13\2qr\7\20\2\2rt\3\2\2\2sd\3\2\2\2si\3\2"+
-		"\2\2sn\3\2\2\2t\21\3\2\2\2uv\7\30\2\2vw\7\21\2\2wx\5\26\f\2xy\7\22\2\2"+
-		"y\23\3\2\2\2z{\5\26\f\2{|\7\23\2\2|}\5\26\f\2}\u008f\3\2\2\2~\177\5\26"+
-		"\f\2\177\u0080\7\24\2\2\u0080\u0081\5\26\f\2\u0081\u008f\3\2\2\2\u0082"+
-		"\u0083\5\26\f\2\u0083\u0084\7\25\2\2\u0084\u0085\5\26\f\2\u0085\u008f"+
-		"\3\2\2\2\u0086\u0087\5\26\f\2\u0087\u0088\7\26\2\2\u0088\u0089\5\26\f"+
-		"\2\u0089\u008f\3\2\2\2\u008a\u008b\5\26\f\2\u008b\u008c\7\27\2\2\u008c"+
-		"\u008d\5\26\f\2\u008d\u008f\3\2\2\2\u008ez\3\2\2\2\u008e~\3\2\2\2\u008e"+
-		"\u0082\3\2\2\2\u008e\u0086\3\2\2\2\u008e\u008a\3\2\2\2\u008f\25\3\2\2"+
-		"\2\u0090\u0093\7\31\2\2\u0091\u0093\7\30\2\2\u0092\u0090\3\2\2\2\u0092"+
-		"\u0091\3\2\2\2\u0093\27\3\2\2\2\f\33\37#,;E_s\u008e\u0092";
+		"\t\13\4\f\t\f\3\2\7\2\32\n\2\f\2\16\2\35\13\2\3\3\3\3\5\3!\n\3\3\3\3\3"+
+		"\3\3\3\4\3\4\3\4\3\4\5\4*\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\3\5\3\5\5\59\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6C\n\6\3\7\3\7"+
+		"\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\5\7]\n\7\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3"+
+		"\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\tq\n\t\3\n\3\n\3\n\3\n\3\n\3\13\3\13"+
+		"\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13"+
+		"\3\13\3\13\3\13\3\13\5\13\u008c\n\13\3\f\3\f\5\f\u0090\n\f\3\f\2\2\r\2"+
+		"\4\6\b\n\f\16\20\22\24\26\2\2\2\u009b\2\33\3\2\2\2\4 \3\2\2\2\6)\3\2\2"+
+		"\2\b8\3\2\2\2\nB\3\2\2\2\f\\\3\2\2\2\16^\3\2\2\2\20p\3\2\2\2\22r\3\2\2"+
+		"\2\24\u008b\3\2\2\2\26\u008f\3\2\2\2\30\32\5\4\3\2\31\30\3\2\2\2\32\35"+
+		"\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\3\3\2\2\2\35\33\3\2\2\2\36\37"+
+		"\7\30\2\2\37!\7\3\2\2 \36\3\2\2\2 !\3\2\2\2!\"\3\2\2\2\"#\5\6\4\2#$\7"+
+		"\32\2\2$\5\3\2\2\2%*\5\b\5\2&*\5\n\6\2\'*\5\20\t\2(*\5\16\b\2)%\3\2\2"+
+		"\2)&\3\2\2\2)\'\3\2\2\2)(\3\2\2\2*\7\3\2\2\2+,\7\30\2\2,-\7\4\2\2-9\5"+
+		"\26\f\2./\7\30\2\2/\60\7\4\2\2\609\5\24\13\2\61\62\7\30\2\2\62\63\7\4"+
+		"\2\2\639\5\22\n\2\64\65\5\22\n\2\65\66\7\4\2\2\66\67\5\26\f\2\679\3\2"+
+		"\2\28+\3\2\2\28.\3\2\2\28\61\3\2\2\28\64\3\2\2\29\t\3\2\2\2:;\7\5\2\2"+
+		";<\5\f\7\2<=\5\16\b\2=C\3\2\2\2>?\7\6\2\2?@\5\f\7\2@A\5\16\b\2AC\3\2\2"+
+		"\2B:\3\2\2\2B>\3\2\2\2C\13\3\2\2\2DE\5\26\f\2EF\7\7\2\2FG\5\26\f\2G]\3"+
+		"\2\2\2HI\5\26\f\2IJ\7\b\2\2JK\5\26\f\2K]\3\2\2\2LM\5\26\f\2MN\7\t\2\2"+
+		"NO\5\26\f\2O]\3\2\2\2PQ\5\26\f\2QR\7\n\2\2RS\5\26\f\2S]\3\2\2\2TU\5\26"+
+		"\f\2UV\7\13\2\2VW\5\26\f\2W]\3\2\2\2XY\5\26\f\2YZ\7\f\2\2Z[\5\26\f\2["+
+		"]\3\2\2\2\\D\3\2\2\2\\H\3\2\2\2\\L\3\2\2\2\\P\3\2\2\2\\T\3\2\2\2\\X\3"+
+		"\2\2\2]\r\3\2\2\2^_\7\r\2\2_`\5\26\f\2`\17\3\2\2\2ab\7\16\2\2bc\7\17\2"+
+		"\2cd\5\26\f\2de\7\20\2\2eq\3\2\2\2fg\7\16\2\2gh\7\17\2\2hi\5\22\n\2ij"+
+		"\7\20\2\2jq\3\2\2\2kl\7\16\2\2lm\7\17\2\2mn\5\24\13\2no\7\20\2\2oq\3\2"+
+		"\2\2pa\3\2\2\2pf\3\2\2\2pk\3\2\2\2q\21\3\2\2\2rs\7\30\2\2st\7\21\2\2t"+
+		"u\5\26\f\2uv\7\22\2\2v\23\3\2\2\2wx\5\26\f\2xy\7\23\2\2yz\5\26\f\2z\u008c"+
+		"\3\2\2\2{|\5\26\f\2|}\7\24\2\2}~\5\26\f\2~\u008c\3\2\2\2\177\u0080\5\26"+
+		"\f\2\u0080\u0081\7\25\2\2\u0081\u0082\5\26\f\2\u0082\u008c\3\2\2\2\u0083"+
+		"\u0084\5\26\f\2\u0084\u0085\7\26\2\2\u0085\u0086\5\26\f\2\u0086\u008c"+
+		"\3\2\2\2\u0087\u0088\5\26\f\2\u0088\u0089\7\27\2\2\u0089\u008a\5\26\f"+
+		"\2\u008a\u008c\3\2\2\2\u008bw\3\2\2\2\u008b{\3\2\2\2\u008b\177\3\2\2\2"+
+		"\u008b\u0083\3\2\2\2\u008b\u0087\3\2\2\2\u008c\25\3\2\2\2\u008d\u0090"+
+		"\7\31\2\2\u008e\u0090\7\30\2\2\u008f\u008d\3\2\2\2\u008f\u008e\3\2\2\2"+
+		"\u0090\27\3\2\2\2\13\33 )8B\\p\u008b\u008f";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

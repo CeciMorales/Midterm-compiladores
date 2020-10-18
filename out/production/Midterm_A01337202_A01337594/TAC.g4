@@ -3,7 +3,7 @@ grammar TAC;
 program : stmts*
         ;
 
-stmts : NEWLINE? (ID ':' )? stmt NEWLINE #Smts
+stmts : (ID ':' )? stmt NEWLINE #Smts
       ;
 
 stmt :  assign #StmtAssign
