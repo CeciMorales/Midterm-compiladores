@@ -1,15 +1,39 @@
 public class Operation extends Stmt{
-    Expr leftExpr;
+    NumOrId leftValue;
+    NumOrId rightValue;
     String signo;
-    Expr rightExpr;
 
-    public Operation(Expr leftExpr, String signo, Expr rightExpr){
-        this.leftExpr = leftExpr;
+
+
+    public Operation(NumOrId leftValue, String signo, NumOrId rightValue){
+        this.leftValue = leftValue;
         this.signo = signo;
-        this.rightExpr = rightExpr;
+        this.rightValue = rightValue;
     }
 
-    public void gen() {
+
+    public int makeOperation(String signo){
+        switch (signo){
+            case "+":
+                return leftValue.getVal() + rightValue.getVal();
+            case "-":
+                return leftValue.getVal() - rightValue.getVal();
+            case "*":
+                return leftValue.getVal() * rightValue.getVal();
+            case "/":
+                return (int) leftValue.getVal() / rightValue.getVal();
+            case "%":
+                return leftValue.getVal() % rightValue.getVal();
+            default:
+                break;
+
+        }
+
+        return -1;
 
     }
+
+
+
+
 }

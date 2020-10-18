@@ -1,4 +1,4 @@
-public abstract class Expr extends Stmt {
+public class Expr extends Stmt {
 
     // checa valor de la izquierda
     // checa si es id solito o si es array

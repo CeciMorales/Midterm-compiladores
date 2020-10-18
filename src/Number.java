@@ -1,13 +1,17 @@
 public class Number extends Expr{
-    int numero;
+    int number;
 
     public Number(int numero) {
-        this.numero = numero;
+        this.number = numero;
 
+    }
+
+    public int getNumber() {
+        return number;
     }
 
     @Override
     public String toString() {
-        return "  " + numero +" ";
+        return "  " + number +" ";
     }
 }

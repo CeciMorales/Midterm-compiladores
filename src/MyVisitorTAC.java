@@ -73,13 +73,15 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         if ( ctx.children.get(2) instanceof TACParser.NumberContext ) {
 
             int aux =  Integer.parseInt(ctx.children.get(2).getText());
-            Number number = new Number(aux);
+            NumOrId number = new NumOrId(aux);
+            System.out.println("number" + number.number);
             return new Assign(identificador, number);
 
         } else if ( ctx.children.get(2) instanceof TACParser.IdContext ) {
 
             String aux =  ctx.children.get(2).getText();
-            Id id1 = new Id(aux);
+            NumOrId id1 = new NumOrId (aux);
+            System.out.println("id" + id1.id);
             return new Assign(identificador, id1);
         }
         return visitChildren(ctx);
@@ -93,36 +95,87 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitAssignIdOperation(TACParser.AssignIdOperationContext ctx) {
-        System.out.println("assignOperation: " + ctx.children.get(0) );
-        System.out.println("assignOperation: " + ctx.children.get(1) );
-        System.out.println("assignOperation: " + ctx.children.get(2).getChild(0).getText() );
+
+        String signo;
 
         if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
-                ctx.children.get(2).getChild(1) instanceof TACParser.NumberContext) {
+                ctx.children.get(2).getChild(2) instanceof TACParser.NumberContext) {
 
             int left =  Integer.parseInt(ctx.children.get(2).getChild(0).getText());
-            Number number1 = new Number(left);
+            NumOrId number1 = new NumOrId(left);
 
-            int right =  Integer.parseInt(ctx.children.get(2).getChild(1).getText());
-            Number number2 = new Number(right);
+            signo = ctx.children.get(2).getChild(1).getText();
 
+            int right =  Integer.parseInt(ctx.children.get(2).getChild(2).getText());
+            NumOrId number2 = new NumOrId(right);
+
+            System.out.println("left: " + number1);
+            System.out.println("signo: " + signo);
+            System.out.println("right: " + number2);
+
+            Operation operation = new Operation(number1, signo, number2);
+
+            return operation;
 
         } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.IdContext &&
-                ctx.children.get(2).getChild(1) instanceof TACParser.NumberContext) {
+                ctx.children.get(2).getChild(2) instanceof TACParser.NumberContext) {
 
+            String left =  ctx.children.get(2).getChild(0).getText();
+            NumOrId id = new NumOrId(left);
 
+            signo = ctx.children.get(2).getChild(1).getText();
+
+            int right =  Integer.parseInt(ctx.children.get(2).getChild(2).getText());
+            NumOrId number2 = new NumOrId(right);
+
+            System.out.println("left: " + id);
+            System.out.println("signo: " + signo);
+            System.out.println("right: " + number2);
+
+            Operation operation = new Operation(id, signo, number2);
+
+            return operation;
 
         } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
-                ctx.children.get(2).getChild(1) instanceof TACParser.IdContext) {
+                ctx.children.get(2).getChild(2) instanceof TACParser.IdContext) {
 
 
+            int left =  Integer.parseInt(ctx.children.get(2).getChild(0).getText());
+            NumOrId number = new NumOrId(left);
+
+            signo = ctx.children.get(2).getChild(1).getText();
+
+            String right =  ctx.children.get(2).getChild(2).getText();
+            NumOrId id = new NumOrId(right);
+
+            System.out.println("left: " + number);
+            System.out.println("signo: " + signo);
+            System.out.println("right: " + id);
+
+            Operation operation = new Operation(number, signo, id);
+
+            return operation;
 
         } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.IdContext &&
-                ctx.children.get(2).getChild(1) instanceof TACParser.IdContext) {
+                ctx.children.get(2).getChild(2) instanceof TACParser.IdContext) {
 
+            String left =  ctx.children.get(2).getChild(0).getText();
+            NumOrId id = new NumOrId(left);
+
+            signo = ctx.children.get(2).getChild(1).getText();
+
+            String right =  ctx.children.get(2).getChild(2).getText();
+            NumOrId id2 = new NumOrId(right);
+
+            System.out.println("left: " + id);
+            System.out.println("signo: " + signo);
+            System.out.println("right: " + id2);
+
+            Operation operation = new Operation(id, signo, id2);
+
+            return operation;
 
         }
-
 
         return visitChildren(ctx);
     }

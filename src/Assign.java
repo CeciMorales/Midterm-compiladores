@@ -1,19 +1,15 @@
 public class Assign extends Stmt {
 
 
-    Number number;
     Id id1;
-    Id id2;
+    NumOrId numOrId;
     Operation op;
 
-    public Assign(Id id1, Number number) {
+    public Assign(Id id1, NumOrId numOrId) {
         this.id1 = id1;
-        this.number = number;
+        this.numOrId = numOrId;
 
     }
 
-    public Assign(Id id1, Id id2) {
-        this.id1 = id1;
-        this.id2 = id2;
-    }
+
 }
