@@ -229,6 +229,91 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
     @Override
     public Stmt visitIfConditionTrue(TACParser.IfConditionTrueContext ctx) {
+        String signo;
+        boolean result;
+
+        if ( ctx.children.get(1).getChild(0) instanceof TACParser.NumberContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.NumberContext) {
+
+            int left =  Integer.parseInt(ctx.children.get(1).getChild(0).getText());
+            NumOrId number1 = new NumOrId(left);
+
+            signo = ctx.children.get(1).getChild(1).getText();
+
+            int right =  Integer.parseInt(ctx.children.get(1).getChild(2).getText());
+            NumOrId number2 = new NumOrId(right);
+
+            Condition condition = new Condition(number1, signo, number2);
+            System.out.println("condition " + condition.makeCondition());
+            result = condition.makeCondition();
+
+
+            // logica del goto
+
+
+            return condition;
+
+        } else if ( ctx.children.get(1).getChild(0) instanceof TACParser.IdContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.NumberContext) {
+
+            String left =  ctx.children.get(1).getChild(0).getText();
+
+            if (memory.containsKey(left)) {
+
+                NumOrId id = new NumOrId(memory.get(left));
+
+                signo = ctx.children.get(1).getChild(1).getText();
+
+                int right =  Integer.parseInt(ctx.children.get(1).getChild(2).getText());
+                NumOrId number2 = new NumOrId(right);
+
+                Condition condition = new Condition(id, signo, number2);
+                result = condition.makeCondition();
+
+                return condition;
+            }
+
+        } else if ( ctx.children.get(1).getChild(0) instanceof TACParser.NumberContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.IdContext) {
+
+
+            int left =  Integer.parseInt(ctx.children.get(1).getChild(0).getText());
+            NumOrId number = new NumOrId(left);
+
+            signo = ctx.children.get(1).getChild(1).getText();
+
+            String right =  ctx.children.get(1).getChild(2).getText();
+
+            if (memory.containsKey(right)) {
+                NumOrId id = new NumOrId(memory.get(right));
+
+                Condition condition = new Condition(number, signo, id);
+                result = condition.makeCondition();
+
+
+                return condition;
+            }
+
+        } else if ( ctx.children.get(1).getChild(0) instanceof TACParser.IdContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.IdContext) {
+
+            String left =  ctx.children.get(1).getChild(0).getText();
+            String right =  ctx.children.get(1).getChild(2).getText();
+
+            if (memory.containsKey(left) && memory.containsKey(right)) {
+
+                NumOrId id = new NumOrId(memory.get(left));
+                signo = ctx.children.get(1).getChild(1).getText();
+                NumOrId id2 = new NumOrId(memory.get(right));
+
+                Condition condition = new Condition(id, signo, id2);
+                result = condition.makeCondition();
+
+                return condition;
+
+            }
+        }
+
         return visitChildren(ctx);
     }
     /**
@@ -239,6 +324,92 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitIfConditionFalse(TACParser.IfConditionFalseContext ctx) {
+
+        String signo;
+        boolean result;
+
+        if ( ctx.children.get(1).getChild(0) instanceof TACParser.NumberContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.NumberContext) {
+
+            int left =  Integer.parseInt(ctx.children.get(1).getChild(0).getText());
+            NumOrId number1 = new NumOrId(left);
+
+            signo = ctx.children.get(1).getChild(1).getText();
+
+            int right =  Integer.parseInt(ctx.children.get(1).getChild(2).getText());
+            NumOrId number2 = new NumOrId(right);
+
+            Condition condition = new Condition(number1, signo, number2);
+            System.out.println("condition " + condition.makeCondition());
+            result = condition.makeCondition();
+
+
+            // logica del goto
+
+
+            return condition;
+
+        } else if ( ctx.children.get(1).getChild(0) instanceof TACParser.IdContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.NumberContext) {
+
+            String left =  ctx.children.get(1).getChild(0).getText();
+
+            if (memory.containsKey(left)) {
+
+                NumOrId id = new NumOrId(memory.get(left));
+
+                signo = ctx.children.get(1).getChild(1).getText();
+
+                int right =  Integer.parseInt(ctx.children.get(1).getChild(2).getText());
+                NumOrId number2 = new NumOrId(right);
+
+                Condition condition = new Condition(id, signo, number2);
+                result = condition.makeCondition();
+
+                return condition;
+            }
+
+        } else if ( ctx.children.get(1).getChild(0) instanceof TACParser.NumberContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.IdContext) {
+
+
+            int left =  Integer.parseInt(ctx.children.get(1).getChild(0).getText());
+            NumOrId number = new NumOrId(left);
+
+            signo = ctx.children.get(1).getChild(1).getText();
+
+            String right =  ctx.children.get(1).getChild(2).getText();
+
+            if (memory.containsKey(right)) {
+                NumOrId id = new NumOrId(memory.get(right));
+
+                Condition condition = new Condition(number, signo, id);
+                result = condition.makeCondition();
+
+
+                return condition;
+            }
+
+        } else if ( ctx.children.get(1).getChild(0) instanceof TACParser.IdContext &&
+                ctx.children.get(1).getChild(2) instanceof TACParser.IdContext) {
+
+            String left =  ctx.children.get(1).getChild(0).getText();
+            String right =  ctx.children.get(1).getChild(2).getText();
+
+            if (memory.containsKey(left) && memory.containsKey(right)) {
+
+                NumOrId id = new NumOrId(memory.get(left));
+                signo = ctx.children.get(1).getChild(1).getText();
+                NumOrId id2 = new NumOrId(memory.get(right));
+
+                Condition condition = new Condition(id, signo, id2);
+                result = condition.makeCondition();
+
+                return condition;
+
+            }
+        }
+
         return visitChildren(ctx);
     }
     /**

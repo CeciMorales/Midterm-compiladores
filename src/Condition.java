@@ -9,7 +9,7 @@ public class Condition extends Stmt{
         this.rightValue = rightValue;
     }
 
-    public boolean makeOperation(){
+    public boolean makeCondition(){
         switch (signo){
             case ">":
                 return leftValue.getVal() > rightValue.getVal();
