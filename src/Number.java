@@ -2,13 +2,8 @@ public class Number extends Expr{
     int numero;
 
     public Number(int numero) {
-        numero = numero;
+        this.numero = numero;
 
-    }
-
-    public void gen() {
-        System.out.print("entrando a gen");
-        Main.out.println(" " + numero + " ");
     }
 
     @Override
