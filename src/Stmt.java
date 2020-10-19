@@ -1,20 +1,25 @@
 import java.util.*;
 
-public class Stmt {
+public  class Stmt {
 
     public Map<String, Integer> memoryVariables = new HashMap<String, Integer>();
     public Map<String, Integer> memoryLabels = new HashMap<String, Integer>();
-    public List<Stmt> staments = new ArrayList<Stmt>();
+    public  List<Stmt> staments = new ArrayList<Stmt>();
 
-    public int counter = 0;
+    public  int counter = 0;
 
-    public int add () {
-        return counter ++;
+    public void eval () {
+        counter ++;
     }
 
-    public void regresar(){
+     final void exec(){
 
-
+        counter = 0;
+        System.out.println(staments.size());
+        while (counter < staments.size()){
+            System.out.println(counter);
+            staments.get(counter).eval();
+        }
 
     }
 

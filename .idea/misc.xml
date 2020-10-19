@@ -6,7 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/TAC.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="C:\Users\cecim\OneDrive\Documentos\TEC\Noveno semestre\Compiladores\Proyectos\Midterm\src" />
+          <option name="outputDir" value="C:\Users\moren\ITC\Noveno Semestre\Compiladores\Midterm-compiladores\src" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="" />

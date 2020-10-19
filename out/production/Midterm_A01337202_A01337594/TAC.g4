@@ -15,11 +15,14 @@ stmt :  assign #StmtAssign
 assign : ID '=' numOrId #AssignIdNumOrId
        | ID '=' operation #AssignIdOperation
        | ID '=' array #AssignIdArray
+       | ID '='  condition #AssignIdCondition
        | array '=' numOrId #AssignArrayNumOrId
        ;
 
 ifCondition : 'ifTrue' condition goTo #IfConditionTrue
             | 'ifFalse' condition goTo #IfConditionFalse
+            | 'ifTrue' ID goTo #IfConditionIdTrue
+            | 'ifFalse' ID goTo #IfConditionIdFalse
             ;
 
 condition : numOrId '>' numOrId #ConditionGreater
@@ -52,7 +55,7 @@ numOrId : INT #Number
         | ID #Id
         ;
 
-ID:         [a-zA-Z]+;
+ID:         [A-Za-z][0-9A-Za-z]*;
 INT:        [0-9]+;
 NEWLINE:    '\r'? '\n';
 WS:         [ \t]+ -> skip;

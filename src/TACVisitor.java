@@ -1,4 +1,4 @@
-// Generated from C:/Users/cecim/OneDrive/Documentos/TEC/Noveno semestre/Compiladores/Proyectos/Midterm/src\TAC.g4 by ANTLR 4.8
+// Generated from C:/Users/moren/ITC/Noveno Semestre/Compiladores/Midterm-compiladores/src\TAC.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -72,6 +72,13 @@ public interface TACVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignIdArray(TACParser.AssignIdArrayContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code AssignIdCondition}
+	 * labeled alternative in {@link TACParser#assign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignIdCondition(TACParser.AssignIdConditionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code AssignArrayNumOrId}
 	 * labeled alternative in {@link TACParser#assign}.
 	 * @param ctx the parse tree
@@ -92,6 +99,20 @@ public interface TACVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIfConditionFalse(TACParser.IfConditionFalseContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IfConditionIdTrue}
+	 * labeled alternative in {@link TACParser#ifCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfConditionIdTrue(TACParser.IfConditionIdTrueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IfConditionIdFalse}
+	 * labeled alternative in {@link TACParser#ifCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfConditionIdFalse(TACParser.IfConditionIdFalseContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ConditionGreater}
 	 * labeled alternative in {@link TACParser#condition}.

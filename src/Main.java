@@ -12,16 +12,14 @@ import org.antlr.v4.runtime.tree.*;
 public class Main {
 
     static PrintWriter out;
+
     public static void main(String [] args) throws Exception {
 
         try {
             out = new PrintWriter((args.length==0)?"salida.txt" : args[0]);
 
-            InputStream is = (args.length == 0)
-                    ?  System.in
-                    : new FileInputStream(args[0]);
 
-            CharStream input = CharStreams.fromStream(is);
+            CharStream input = CharStreams.fromStream(System.in);
             TACLexer lexer = new TACLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             TACParser parser = new TACParser(tokens);
@@ -32,9 +30,7 @@ public class Main {
             MyVisitorTAC visitorTAC = new MyVisitorTAC();
             visitorTAC.visit(tree);
 
-            //Node n = visitorTAC.visit(tree);
-            //n.gen();
-
+            //Stmt.exec();
 
             out.close();
         }

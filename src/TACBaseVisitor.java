@@ -1,4 +1,4 @@
-// Generated from C:/Users/cecim/OneDrive/Documentos/TEC/Noveno semestre/Compiladores/Proyectos/Midterm/src\TAC.g4 by ANTLR 4.8
+// Generated from C:/Users/moren/ITC/Noveno Semestre/Compiladores/Midterm-compiladores/src\TAC.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -79,6 +79,13 @@ public class TACBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements TA
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitAssignIdCondition(TACParser.AssignIdConditionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitAssignArrayNumOrId(TACParser.AssignArrayNumOrIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -94,6 +101,20 @@ public class TACBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements TA
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitIfConditionFalse(TACParser.IfConditionFalseContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIfConditionIdTrue(TACParser.IfConditionIdTrueContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIfConditionIdFalse(TACParser.IfConditionIdFalseContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

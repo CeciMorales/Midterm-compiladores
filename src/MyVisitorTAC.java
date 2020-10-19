@@ -4,7 +4,7 @@ import java.util.Map;
 public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
     Stmt stmt = new Stmt();
-
+    int counter= 0;
 
     @Override
     public Stmt visitProgram(TACParser.ProgramContext ctx) {
@@ -18,15 +18,15 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
      */
     @Override
     public Stmt visitSmts(TACParser.SmtsContext ctx) {
-        stmt.counter += 1;
+        counter += 1;
         System.out.println("context " +  ctx.children.get(0).getText());
-        System.out.println("counter: " + stmt.counter);
+        System.out.println("counter: " + counter);
 
 
         if (ctx.ID() != null){
             System.out.println("Si hay label");
             String label =  ctx.children.get(0).getText();
-            stmt.memoryLabels.put(label, stmt.counter);
+            stmt.memoryLabels.put(label, counter);
             System.out.println("label map: " + stmt.memoryLabels);
             System.out.println("despues de los 2 puntos" + ctx.children.get(2).getText());
 
@@ -298,7 +298,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 GoTo goTo = new GoTo(aux);
                 System.out.println("line ->" +  line);
 
-                IfTrue ifTrue = new IfTrue(condition, goTo);
+                IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                 stmt.staments.add(ifTrue);
             }
 
@@ -332,7 +332,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
-                    IfTrue ifTrue = new IfTrue(condition, goTo);
+                    IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                     stmt.staments.add(ifTrue);
                 }
 
@@ -365,7 +365,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
-                    IfTrue ifTrue = new IfTrue(condition, goTo);
+                    IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                     stmt.staments.add(ifTrue);
                 }
 
@@ -397,7 +397,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
-                    IfTrue ifTrue = new IfTrue(condition, goTo);
+                    IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                     stmt.staments.add(ifTrue);
                 }
 
@@ -445,7 +445,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 GoTo goTo = new GoTo(aux);
                 System.out.println("line ->" +  line);
 
-                IfFalse ifFalse = new IfFalse(condition, goTo);
+                IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                 stmt.staments.add(ifFalse);
             }
 
@@ -478,7 +478,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
-                    IfFalse ifFalse = new IfFalse(condition, goTo);
+                    IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                     stmt.staments.add(ifFalse);
                 }
 
@@ -511,7 +511,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
-                    IfFalse ifFalse = new IfFalse(condition, goTo);
+                    IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                     stmt.staments.add(ifFalse);
                 }
 
@@ -543,7 +543,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
-                    IfFalse ifFalse = new IfFalse(condition, goTo);
+                    IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                     stmt.staments.add(ifFalse);
                 }
 
@@ -766,4 +766,209 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         System.out.println("visit ID: "+ id);
         return visitChildren(ctx);
     }
+
+    public int returnInt(Boolean bool) {
+        if (bool == true) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
+    public Stmt visitAssignIdCondition(TACParser.AssignIdConditionContext ctx) {
+        String idString = ctx.ID().getText();
+        Id identificador = new Id(idString);
+        String signo;
+        int resultInt;
+        boolean result;
+
+        System.out.println("Entrando a idConditon");
+        System.out.println("0" + ctx.children.get(0));
+        System.out.println("1" + ctx.children.get(1));
+        System.out.println("2" + ctx.children.get(2).getChild(0).getText());
+        System.out.println("2" + ctx.children.get(2).getChild(1));
+        System.out.println("2" + ctx.children.get(2).getChild(2).getText());
+
+
+
+        if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
+                ctx.children.get(2).getChild(2) instanceof TACParser.NumberContext) {
+
+            int left =  Integer.parseInt(ctx.children.get(2).getChild(0).getText());
+            NumOrId number1 = new NumOrId(left);
+
+            signo = ctx.children.get(2).getChild(1).getText();
+
+            int right =  Integer.parseInt(ctx.children.get(2).getChild(2).getText());
+            NumOrId number2 = new NumOrId(right);
+
+            Condition condition = new Condition(number1, signo, number2);
+            System.out.println("condition " + condition.makeCondition());
+            result = condition.makeCondition();
+
+            NumOrId conditionResult = new NumOrId(returnInt(result));
+            stmt.memoryVariables.put(idString, returnInt(result));
+            System.out.println(":(" + idString + returnInt(result));
+
+            Assign assign = new Assign(identificador, conditionResult );
+
+            stmt.staments.add(assign);
+
+
+            return condition;
+
+        } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.IdContext &&
+                ctx.children.get(2).getChild(2) instanceof TACParser.NumberContext) {
+
+            String left =  ctx.children.get(2).getChild(0).getText();
+
+            if (stmt.memoryVariables.containsKey(left)) {
+
+                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+
+                signo = ctx.children.get(2).getChild(1).getText();
+
+                int right =  Integer.parseInt(ctx.children.get(2).getChild(2).getText());
+                NumOrId number2 = new NumOrId(right);
+
+                Condition condition = new Condition(id, signo, number2);
+                result = condition.makeCondition();
+
+
+                NumOrId conditionResult = new NumOrId(returnInt(result));
+                stmt.memoryVariables.put(idString, returnInt(result));
+                System.out.println(":(" + idString + returnInt(result));
+
+                Assign assign = new Assign(identificador, conditionResult );
+
+                stmt.staments.add(assign);
+
+                return condition;
+            }
+
+        } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
+                ctx.children.get(2).getChild(2) instanceof TACParser.IdContext) {
+
+
+            int left =  Integer.parseInt(ctx.children.get(2).getChild(0).getText());
+            NumOrId number = new NumOrId(left);
+
+            signo = ctx.children.get(2).getChild(1).getText();
+
+            String right =  ctx.children.get(2).getChild(2).getText();
+
+            if (stmt.memoryVariables.containsKey(right)) {
+                NumOrId id = new NumOrId(stmt.memoryVariables.get(right));
+
+                Condition condition = new Condition(number, signo, id);
+                result = condition.makeCondition();
+
+
+                NumOrId conditionResult = new NumOrId(returnInt(result));
+                stmt.memoryVariables.put(idString, returnInt(result));
+                System.out.println(":(" + idString + returnInt(result));
+
+                Assign assign = new Assign(identificador, conditionResult );
+
+                stmt.staments.add(assign);
+
+                return condition;
+            }
+
+        } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.IdContext &&
+                ctx.children.get(2).getChild(2) instanceof TACParser.IdContext) {
+
+            String left =  ctx.children.get(2).getChild(0).getText();
+            String right =  ctx.children.get(2).getChild(2).getText();
+
+            if (stmt.memoryVariables.containsKey(left) && stmt.memoryVariables.containsKey(right)) {
+
+                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                signo = ctx.children.get(2).getChild(1).getText();
+                NumOrId id2 = new NumOrId(stmt.memoryVariables.get(right));
+
+                Condition condition = new Condition(id, signo, id2);
+                result = condition.makeCondition();
+
+                NumOrId conditionResult = new NumOrId(returnInt(result));
+                stmt.memoryVariables.put(idString, returnInt(result));
+                System.out.println(":(" + idString + returnInt(result));
+
+                Assign assign = new Assign(identificador, conditionResult );
+
+                stmt.staments.add(assign);
+
+                return condition;
+
+            }
+        }
+
+        return visitChildren(ctx);
+
+    }
+
+    @Override public Stmt visitIfConditionIdTrue(TACParser.IfConditionIdTrueContext ctx) {
+
+        System.out.println("Entrando a id condition false");
+        System.out.println("0" + ctx.children.get(0));
+        System.out.println("1" + ctx.children.get(1));
+        String id = ctx.children.get(1).getText();
+        String label = ctx.children.get(2).getChild(1).getText();
+        System.out.println("line, result -> " + id + label);
+        if (stmt.memoryVariables.containsKey(id) && stmt.memoryLabels.containsKey(label)) {
+            int line = stmt.memoryLabels.get(label);
+            int result = stmt.memoryLabels.get(id);
+            System.out.println("line, result" + line + result);
+
+            GoTo goTo = new GoTo(label);
+            System.out.println("line ->" +  line);
+
+            IfTrue ifTrue = new IfTrue(goTo, returnBool(result), line);
+            stmt.staments.add(ifTrue);
+
+        }
+
+
+        return visitChildren(ctx);
+
+
+    }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override public Stmt visitIfConditionIdFalse(TACParser.IfConditionIdFalseContext ctx) {
+
+        System.out.println("Entrando a id condition false");
+        System.out.println("0" + ctx.children.get(0));
+        System.out.println("1" + ctx.children.get(1));
+        String id = ctx.children.get(1).getText();
+        String label = ctx.children.get(2).getChild(1).getText();
+        System.out.println("line, result -> " + id + label);
+        if (stmt.memoryVariables.containsKey(id) && stmt.memoryLabels.containsKey(label)) {
+            int line = stmt.memoryLabels.get(label);
+            int result = stmt.memoryLabels.get(id);
+            System.out.println("line, result" + line + result);
+
+            GoTo goTo = new GoTo(label);
+            System.out.println("line ->" +  line);
+
+            IfFalse ifFalse = new IfFalse(goTo, returnBool(result), line);
+            stmt.staments.add(ifFalse);
+
+        }
+        return visitChildren(ctx);
+    }
+
+    public boolean returnBool (int result) {
+        if (result == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }
