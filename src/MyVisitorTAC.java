@@ -85,8 +85,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         String aux = ctx.children.get(0).getChild(1).getText();
         if (stmt.memoryLabels.containsKey(aux)) {
             int line = stmt.memoryLabels.get(aux);
+            GoTo goTo = new GoTo(aux);
             System.out.println("line ->" +  line);
-
         }
 
 
@@ -290,6 +290,18 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
 
             // logica del goto
+            System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+            String aux = ctx.children.get(2).getChild(1).getText();
+            if (stmt.memoryLabels.containsKey(aux)) {
+                int line = stmt.memoryLabels.get(aux);
+                GoTo goTo = new GoTo(aux);
+                System.out.println("line ->" +  line);
+
+                IfTrue ifTrue = new IfTrue(condition, goTo);
+                stmt.staments.add(ifTrue);
+            }
+
 
 
             return condition;
@@ -311,6 +323,19 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(id, signo, number2);
                 result = condition.makeCondition();
 
+                // logica del goto
+                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+                String aux = ctx.children.get(2).getChild(1).getText();
+                if (stmt.memoryLabels.containsKey(aux)) {
+                    int line = stmt.memoryLabels.get(aux);
+                    GoTo goTo = new GoTo(aux);
+                    System.out.println("line ->" +  line);
+
+                    IfTrue ifTrue = new IfTrue(condition, goTo);
+                    stmt.staments.add(ifTrue);
+                }
+
                 return condition;
             }
 
@@ -331,6 +356,19 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(number, signo, id);
                 result = condition.makeCondition();
 
+                // logica del goto
+                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+                String aux = ctx.children.get(2).getChild(1).getText();
+                if (stmt.memoryLabels.containsKey(aux)) {
+                    int line = stmt.memoryLabels.get(aux);
+                    GoTo goTo = new GoTo(aux);
+                    System.out.println("line ->" +  line);
+
+                    IfTrue ifTrue = new IfTrue(condition, goTo);
+                    stmt.staments.add(ifTrue);
+                }
+
 
                 return condition;
             }
@@ -349,6 +387,19 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
                 Condition condition = new Condition(id, signo, id2);
                 result = condition.makeCondition();
+
+                // logica del goto
+                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+                String aux = ctx.children.get(2).getChild(1).getText();
+                if (stmt.memoryLabels.containsKey(aux)) {
+                    int line = stmt.memoryLabels.get(aux);
+                    GoTo goTo = new GoTo(aux);
+                    System.out.println("line ->" +  line);
+
+                    IfTrue ifTrue = new IfTrue(condition, goTo);
+                    stmt.staments.add(ifTrue);
+                }
 
                 return condition;
 
@@ -386,6 +437,17 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
 
             // logica del goto
+            System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+            String aux = ctx.children.get(2).getChild(1).getText();
+            if (stmt.memoryLabels.containsKey(aux)) {
+                int line = stmt.memoryLabels.get(aux);
+                GoTo goTo = new GoTo(aux);
+                System.out.println("line ->" +  line);
+
+                IfFalse ifFalse = new IfFalse(condition, goTo);
+                stmt.staments.add(ifFalse);
+            }
 
 
             return condition;
@@ -407,6 +469,19 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(id, signo, number2);
                 result = condition.makeCondition();
 
+                // logica del goto
+                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+                String aux = ctx.children.get(2).getChild(1).getText();
+                if (stmt.memoryLabels.containsKey(aux)) {
+                    int line = stmt.memoryLabels.get(aux);
+                    GoTo goTo = new GoTo(aux);
+                    System.out.println("line ->" +  line);
+
+                    IfFalse ifFalse = new IfFalse(condition, goTo);
+                    stmt.staments.add(ifFalse);
+                }
+
                 return condition;
             }
 
@@ -427,6 +502,19 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(number, signo, id);
                 result = condition.makeCondition();
 
+                // logica del goto
+                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+                String aux = ctx.children.get(2).getChild(1).getText();
+                if (stmt.memoryLabels.containsKey(aux)) {
+                    int line = stmt.memoryLabels.get(aux);
+                    GoTo goTo = new GoTo(aux);
+                    System.out.println("line ->" +  line);
+
+                    IfFalse ifFalse = new IfFalse(condition, goTo);
+                    stmt.staments.add(ifFalse);
+                }
+
 
                 return condition;
             }
@@ -445,6 +533,19 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
                 Condition condition = new Condition(id, signo, id2);
                 result = condition.makeCondition();
+
+                // logica del goto
+                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
+
+                String aux = ctx.children.get(2).getChild(1).getText();
+                if (stmt.memoryLabels.containsKey(aux)) {
+                    int line = stmt.memoryLabels.get(aux);
+                    GoTo goTo = new GoTo(aux);
+                    System.out.println("line ->" +  line);
+
+                    IfFalse ifFalse = new IfFalse(condition, goTo);
+                    stmt.staments.add(ifFalse);
+                }
 
                 return condition;
 
@@ -542,6 +643,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             Print print = new Print(aux);
             System.out.println("print " + aux);
+            stmt.staments.add(print);
 
             return print;
 
@@ -553,7 +655,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             if (stmt.memoryVariables.containsKey(aux)) {
                 Print print = new Print(stmt.memoryVariables.get(aux));
                 System.out.println("print " +  stmt.memoryVariables.get(aux));
-
+                stmt.staments.add(print);
             }
         }
 
