@@ -47,6 +47,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         if (Stmt.memoryLabels.containsKey(aux)) {
             int line = Stmt.memoryLabels.get(aux);
             GoTo goTo = new GoTo(aux);
+
+            Stmt.staments.add(goTo);
         }
 
         return visitChildren(ctx);
@@ -493,6 +495,23 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
     @Override
     public Stmt visitGoToNumOrId(TACParser.GoToNumOrIdContext ctx) {
+        System.out.println("Entrando a goto num or id ");
+        String aux = ctx.children.get(1).getText();
+        System.out.println("Entrando a goto num or id " + aux);
+
+        GoTo goTo = new GoTo(aux);
+        Stmt.staments.add(goTo);
+
+        /*
+        if (Stmt.memoryLabels.containsKey(aux)) {
+            int line = Stmt.memoryLabels.get(aux);
+            GoTo goTo = new GoTo(aux);
+
+            Stmt.staments.add(goTo);
+        }
+        */
+
+
         return visitChildren(ctx);
     }
 
@@ -732,8 +751,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         System.out.println("entrando a if false label " + label + " id "+ id);
 
         //&& Stmt.memoryLabels.containsKey(label)
+        System.out.println("Memory labels" + Stmt.memoryLabels);
 
-        if (Stmt.memoryVariables.containsKey(id) && Stmt.memoryLabels.containsKey(label)) {
+        if (Stmt.memoryVariables.containsKey(id) && Stmt.memoryLabels.containsKey(label) ) {
+            System.out.println(":(");
             int line = Stmt.memoryLabels.get(label);
             int result = Stmt.memoryLabels.get(id);
 
