@@ -8,7 +8,12 @@ public class Stmt {
 
     public int counter = 0;
 
+    public int add () {
+        return counter ++;
+    }
+
     public void regresar(){
+
 
 
     }
