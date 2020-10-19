@@ -33,7 +33,7 @@ condition : numOrId '>' numOrId #ConditionGreater
           | numOrId '!=' numOrId #ConditionDifferent
           ;
 
-goTo : 'goTo' numOrId #GoToNumOrId
+goTo : 'goto' numOrId #GoToNumOrId
      ;
 
 print : 'print' '(' numOrId ')' #PrintNumOrId

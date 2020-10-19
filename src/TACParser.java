@@ -34,7 +34,7 @@ public class TACParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "':'", "'='", "'ifTrue'", "'ifFalse'", "'>'", "'>='", "'<'", "'<='", 
-			"'=='", "'!='", "'goTo'", "'print'", "'('", "')'", "'['", "']'", "'+'", 
+			"'=='", "'!='", "'goto'", "'print'", "'('", "')'", "'['", "']'", "'+'", 
 			"'-'", "'*'", "'/'", "'%'"
 		};
 	}

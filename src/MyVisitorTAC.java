@@ -9,42 +9,20 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
     public Stmt visitProgram(TACParser.ProgramContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitSmts(TACParser.SmtsContext ctx) {
         counter += 1;
-        System.out.println("context " +  ctx.children.get(0).getText());
-        System.out.println("counter: " + counter);
-
 
         if (ctx.ID() != null){
-            System.out.println("Si hay label");
             String label =  ctx.children.get(0).getText();
             Stmt.memoryLabels.put(label, counter);
-            System.out.println("label map: " + Stmt.memoryLabels);
-            System.out.println("despues de los 2 puntos" + ctx.children.get(2).getText());
-
-
-        }else{
 
         }
 
-        System.out.println("lista staments" + Stmt.staments);
-
-
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitStmtAssign(TACParser.StmtAssignContext ctx) {
 
@@ -52,68 +30,41 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitStmtIfCondition(TACParser.StmtIfConditionContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitStmtPrint(TACParser.StmtPrintContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitStmtGoTo(TACParser.StmtGoToContext ctx) {
-        System.out.println("goto -> " + ctx.children.get(0).getChild(1).getText());
         String aux = ctx.children.get(0).getChild(1).getText();
         if (Stmt.memoryLabels.containsKey(aux)) {
             int line = Stmt.memoryLabels.get(aux);
             GoTo goTo = new GoTo(aux);
-            System.out.println("line ->" +  line);
         }
-
-
 
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitAssignIdNumOrId(TACParser.AssignIdNumOrIdContext ctx) {
         String id = ctx.ID().getText();
         Id identificador = new Id(id);
 
-
         if ( ctx.children.get(2) instanceof TACParser.NumberContext ) {
 
             int aux =  Integer.parseInt(ctx.children.get(2).getText());
             NumOrId number = new NumOrId(aux);
-            System.out.println("number" + number.number);
             Assign assign = new Assign(identificador, number);
             Stmt.memoryVariables.put(id, aux);
 
             Stmt.staments.add(assign);
-            System.out.println("Lisa stmts" + Stmt.staments);
 
             return assign;
 
@@ -121,7 +72,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String aux =  ctx.children.get(2).getText();
             NumOrId id1 = new NumOrId (aux);
-            System.out.println("id" + id1.id);
+
             if (Stmt.memoryVariables.containsKey(aux)) {
                 Stmt.memoryVariables.put(id, Stmt.memoryVariables.get(aux));
             }
@@ -129,22 +80,14 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             Assign assign =  new Assign(identificador, id1);
 
             Stmt.staments.add(assign);
-            System.out.println("Lisa stmts" + Stmt.staments);
 
-            // stmt.memoryVariables.put(id, aux);
             return assign;
         }
-
 
         return visitChildren(ctx);
 
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitAssignIdOperation(TACParser.AssignIdOperationContext ctx) {
         String idVar = ctx.children.get(0).getText();
@@ -163,10 +106,16 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             NumOrId number2 = new NumOrId(right);
 
             Operation operation = new Operation(number1, signo, number2);
-            System.out.println("operation " + operation.makeOperation());
             result = operation.makeOperation();
 
             Stmt.memoryVariables.put(idVar, result);
+
+            NumOrId resultNumberOrId = new NumOrId(result);
+            Id auxId = new Id(idVar);
+
+            Assign assign = new Assign(auxId, resultNumberOrId );
+
+            Stmt.staments.add(assign);
 
             return operation;
 
@@ -188,13 +137,18 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 result = operation.makeOperation();
                 Stmt.memoryVariables.put(idVar, result);
 
-                System.out.println("memory" + Stmt.memoryVariables);
+                NumOrId resultNumberOrId = new NumOrId(result);
+                Id auxId = new Id(idVar);
+
+                Assign assign = new Assign(auxId, resultNumberOrId );
+
+                Stmt.staments.add(assign);
+
                 return operation;
             }
 
         } else if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
                 ctx.children.get(2).getChild(2) instanceof TACParser.IdContext) {
-
 
             int left =  Integer.parseInt(ctx.children.get(2).getChild(0).getText());
             NumOrId number = new NumOrId(left);
@@ -210,7 +164,12 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 result = operation.makeOperation();
                 Stmt.memoryVariables.put(idVar, result);
 
-                System.out.println("memory" + Stmt.memoryVariables);
+                NumOrId resultNumberOrId = new NumOrId(result);
+                Id auxId = new Id(idVar);
+
+                Assign assign = new Assign(auxId, resultNumberOrId );
+
+                Stmt.staments.add(assign);
 
                 return operation;
             }
@@ -231,7 +190,12 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 result = operation.makeOperation();
                 Stmt.memoryVariables.put(idVar, result);
 
-                System.out.println("memory" + Stmt.memoryVariables);
+                NumOrId resultNumberOrId = new NumOrId(result);
+                Id auxId = new Id(idVar);
+
+                Assign assign = new Assign(auxId, resultNumberOrId );
+
+                Stmt.staments.add(assign);
 
                 return operation;
 
@@ -240,32 +204,17 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitAssignIdArray(TACParser.AssignIdArrayContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitAssignArrayNumOrId(TACParser.AssignArrayNumOrIdContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
 
     @Override
     public Stmt visitIfConditionTrue(TACParser.IfConditionTrueContext ctx) {
@@ -284,24 +233,16 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             NumOrId number2 = new NumOrId(right);
 
             Condition condition = new Condition(number1, signo, number2);
-            System.out.println("condition " + condition.makeCondition());
             result = condition.makeCondition();
-
-
-            // logica del goto
-            System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
             String aux = ctx.children.get(2).getChild(1).getText();
             if (Stmt.memoryLabels.containsKey(aux)) {
                 int line = Stmt.memoryLabels.get(aux);
                 GoTo goTo = new GoTo(aux);
-                System.out.println("line ->" +  line);
 
                 IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                 Stmt.staments.add(ifTrue);
             }
-
-
 
             return condition;
 
@@ -322,14 +263,11 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(id, signo, number2);
                 result = condition.makeCondition();
 
-                // logica del goto
-                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
                 if (Stmt.memoryLabels.containsKey(aux)) {
                     int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
-                    System.out.println("line ->" +  line);
 
                     IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                     Stmt.staments.add(ifTrue);
@@ -355,19 +293,15 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(number, signo, id);
                 result = condition.makeCondition();
 
-                // logica del goto
-                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
                 if (Stmt.memoryLabels.containsKey(aux)) {
                     int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
-                    System.out.println("line ->" +  line);
 
                     IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                     Stmt.staments.add(ifTrue);
                 }
-
 
                 return condition;
             }
@@ -387,14 +321,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(id, signo, id2);
                 result = condition.makeCondition();
 
-                // logica del goto
-                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
-
                 String aux = ctx.children.get(2).getChild(1).getText();
                 if (Stmt.memoryLabels.containsKey(aux)) {
                     int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
-                    System.out.println("line ->" +  line);
 
                     IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
                     Stmt.staments.add(ifTrue);
@@ -407,12 +337,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitIfConditionFalse(TACParser.IfConditionFalseContext ctx) {
 
@@ -431,18 +356,12 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             NumOrId number2 = new NumOrId(right);
 
             Condition condition = new Condition(number1, signo, number2);
-            System.out.println("condition " + condition.makeCondition());
             result = condition.makeCondition();
-
-
-            // logica del goto
-            System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
             String aux = ctx.children.get(2).getChild(1).getText();
             if (Stmt.memoryLabels.containsKey(aux)) {
                 int line = Stmt.memoryLabels.get(aux);
                 GoTo goTo = new GoTo(aux);
-                System.out.println("line ->" +  line);
 
                 IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                 Stmt.staments.add(ifFalse);
@@ -468,14 +387,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(id, signo, number2);
                 result = condition.makeCondition();
 
-                // logica del goto
-                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
-
                 String aux = ctx.children.get(2).getChild(1).getText();
                 if (Stmt.memoryLabels.containsKey(aux)) {
                     int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
-                    System.out.println("line ->" +  line);
 
                     IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                     Stmt.staments.add(ifFalse);
@@ -501,14 +416,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(number, signo, id);
                 result = condition.makeCondition();
 
-                // logica del goto
-                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
-
                 String aux = ctx.children.get(2).getChild(1).getText();
                 if (Stmt.memoryLabels.containsKey(aux)) {
                     int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
-                    System.out.println("line ->" +  line);
 
                     IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                     Stmt.staments.add(ifFalse);
@@ -533,14 +444,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 Condition condition = new Condition(id, signo, id2);
                 result = condition.makeCondition();
 
-                // logica del goto
-                System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
-
                 String aux = ctx.children.get(2).getChild(1).getText();
                 if (Stmt.memoryLabels.containsKey(aux)) {
                     int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
-                    System.out.println("line ->" +  line);
 
                     IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
                     Stmt.staments.add(ifFalse);
@@ -553,95 +460,51 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitConditionGreater(TACParser.ConditionGreaterContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitConditionGreaterEqual(TACParser.ConditionGreaterEqualContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitConditionLess(TACParser.ConditionLessContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitConditionLessEqual(TACParser.ConditionLessEqualContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitConditionEqual(TACParser.ConditionEqualContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitConditionDifferent(TACParser.ConditionDifferentContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitGoToNumOrId(TACParser.GoToNumOrIdContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitPrintNumOrId(TACParser.PrintNumOrIdContext ctx) {
-
-        System.out.println("numero print: " + ctx.children.get(2).getText());
 
         if ( ctx.children.get(2) instanceof TACParser.NumberContext ) {
 
             int aux =  Integer.parseInt(ctx.children.get(2).getText());
             NumOrId number = new NumOrId(aux);
 
-
             Print print = new Print(aux);
-            System.out.println("print " + aux);
             Stmt.staments.add(print);
 
             return print;
@@ -653,116 +516,63 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             if (Stmt.memoryVariables.containsKey(aux)) {
                 Print print = new Print(Stmt.memoryVariables.get(aux));
-                System.out.println("print " +  Stmt.memoryVariables.get(aux));
                 Stmt.staments.add(print);
             }
         }
 
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitPrintArray(TACParser.PrintArrayContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitPrintOperation(TACParser.PrintOperationContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitArrayNum(TACParser.ArrayNumContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitOperationAdd(TACParser.OperationAddContext ctx) {
 
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitOperationSubstract(TACParser.OperationSubstractContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitOperationMultiply(TACParser.OperationMultiplyContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitOperationDivide(TACParser.OperationDivideContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitOperationModule(TACParser.OperationModuleContext ctx) {
         return visitChildren(ctx);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitNumber(TACParser.NumberContext ctx) {
-        System.out.println("get0 "+ctx.children.get(0));
         int number = Integer.parseInt(ctx.INT().getText());
         return new Number(number);
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override
     public Stmt visitId(TACParser.IdContext ctx) {
         String id = ctx.children.get(0).getText();
-        System.out.println("visit ID: "+ id);
         return visitChildren(ctx);
     }
 
@@ -782,15 +592,6 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         int resultInt;
         boolean result;
 
-        System.out.println("Entrando a idConditon");
-        System.out.println("0" + ctx.children.get(0));
-        System.out.println("1" + ctx.children.get(1));
-        System.out.println("2" + ctx.children.get(2).getChild(0).getText());
-        System.out.println("2" + ctx.children.get(2).getChild(1));
-        System.out.println("2" + ctx.children.get(2).getChild(2).getText());
-
-
-
         if ( ctx.children.get(2).getChild(0) instanceof TACParser.NumberContext &&
                 ctx.children.get(2).getChild(2) instanceof TACParser.NumberContext) {
 
@@ -803,12 +604,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             NumOrId number2 = new NumOrId(right);
 
             Condition condition = new Condition(number1, signo, number2);
-            System.out.println("condition " + condition.makeCondition());
             result = condition.makeCondition();
 
             NumOrId conditionResult = new NumOrId(returnInt(result));
             Stmt.memoryVariables.put(idString, returnInt(result));
-            System.out.println(":(" + idString + returnInt(result));
 
             Assign assign = new Assign(identificador, conditionResult );
 
@@ -837,7 +636,6 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
                 NumOrId conditionResult = new NumOrId(returnInt(result));
                 Stmt.memoryVariables.put(idString, returnInt(result));
-                System.out.println(":(" + idString + returnInt(result));
 
                 Assign assign = new Assign(identificador, conditionResult );
 
@@ -866,7 +664,6 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
                 NumOrId conditionResult = new NumOrId(returnInt(result));
                 Stmt.memoryVariables.put(idString, returnInt(result));
-                System.out.println(":(" + idString + returnInt(result));
 
                 Assign assign = new Assign(identificador, conditionResult );
 
@@ -892,7 +689,6 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
                 NumOrId conditionResult = new NumOrId(returnInt(result));
                 Stmt.memoryVariables.put(idString, returnInt(result));
-                System.out.println(":(" + idString + returnInt(result));
 
                 Assign assign = new Assign(identificador, conditionResult );
 
@@ -909,19 +705,14 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
     @Override public Stmt visitIfConditionIdTrue(TACParser.IfConditionIdTrueContext ctx) {
 
-        System.out.println("Entrando a id condition false");
-        System.out.println("0" + ctx.children.get(0));
-        System.out.println("1" + ctx.children.get(1));
         String id = ctx.children.get(1).getText();
         String label = ctx.children.get(2).getChild(1).getText();
-        System.out.println("line, result -> " + id + label);
+
         if (Stmt.memoryVariables.containsKey(id) && Stmt.memoryLabels.containsKey(label)) {
             int line = Stmt.memoryLabels.get(label);
             int result = Stmt.memoryLabels.get(id);
-            System.out.println("line, result" + line + result);
 
             GoTo goTo = new GoTo(label);
-            System.out.println("line ->" +  line);
 
             IfTrue ifTrue = new IfTrue(goTo, returnBool(result), line);
             Stmt.staments.add(ifTrue);
@@ -933,30 +724,24 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
 
     }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation returns the result of calling
-     * {@link #visitChildren} on {@code ctx}.</p>
-     */
+
     @Override public Stmt visitIfConditionIdFalse(TACParser.IfConditionIdFalseContext ctx) {
 
-        System.out.println("Entrando a id condition false");
-        System.out.println("0" + ctx.children.get(0));
-        System.out.println("1" + ctx.children.get(1));
         String id = ctx.children.get(1).getText();
         String label = ctx.children.get(2).getChild(1).getText();
-        System.out.println("line, result -> " + id + label);
+        System.out.println("entrando a if false label " + label + " id "+ id);
+
+        //&& Stmt.memoryLabels.containsKey(label)
+
         if (Stmt.memoryVariables.containsKey(id) && Stmt.memoryLabels.containsKey(label)) {
             int line = Stmt.memoryLabels.get(label);
             int result = Stmt.memoryLabels.get(id);
-            System.out.println("line, result" + line + result);
 
             GoTo goTo = new GoTo(label);
-            System.out.println("line ->" +  line);
 
             IfFalse ifFalse = new IfFalse(goTo, returnBool(result), line);
             Stmt.staments.add(ifFalse);
+            System.out.println("if false " + Stmt.staments.add(ifFalse));
 
         }
         return visitChildren(ctx);

@@ -15,11 +15,15 @@ public abstract class Stmt {
      static final void exec(){
 
         counter = 0;
-        System.out.println("size statements" + staments.size());
+
         while (counter < staments.size()){
-            System.out.println("counte stament while" + counter);
             staments.get(counter).eval();
         }
+
+        System.out.println("memory variables" + memoryVariables);
+        System.out.println("memory labels" + memoryLabels);
+        System.out.println("ista statements" + staments);
+
 
     }
 

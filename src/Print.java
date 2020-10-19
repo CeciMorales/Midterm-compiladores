@@ -11,9 +11,12 @@ public class Print extends Stmt {
         this.id = new NumOrId(id);
     }
 
-    // tostring?
-
-
+    public void eval() {
+        super.eval();
+        int n = numero.number.number;
+        System.out.println(n);
+        Main.out.println(n);
+    }
 
 
 
