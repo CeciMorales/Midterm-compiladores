@@ -1,14 +1,16 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Stmt {
 
-    Map<String, Integer> memoryVariables = new HashMap<String, Integer>();
-    Map<String, Integer> memoryLabels = new HashMap<String, Integer>();
+    public Map<String, Integer> memoryVariables = new HashMap<String, Integer>();
+    public Map<String, Integer> memoryLabels = new HashMap<String, Integer>();
+    public List<Stmt> staments = new ArrayList<Stmt>();
 
     public int counter = 0;
-    public void gen(){
-        
+
+    public void regresar(){
+
+
     }
 
 }
