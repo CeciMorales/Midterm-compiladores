@@ -3,7 +3,6 @@ import java.util.Map;
 
 public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
-    Stmt stmt = new Stmt();
     int counter= 0;
 
     @Override
@@ -26,8 +25,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         if (ctx.ID() != null){
             System.out.println("Si hay label");
             String label =  ctx.children.get(0).getText();
-            stmt.memoryLabels.put(label, counter);
-            System.out.println("label map: " + stmt.memoryLabels);
+            Stmt.memoryLabels.put(label, counter);
+            System.out.println("label map: " + Stmt.memoryLabels);
             System.out.println("despues de los 2 puntos" + ctx.children.get(2).getText());
 
 
@@ -35,7 +34,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
         }
 
-        System.out.println("lista staments" + stmt.staments);
+        System.out.println("lista staments" + Stmt.staments);
 
 
         return visitChildren(ctx);
@@ -83,8 +82,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
     public Stmt visitStmtGoTo(TACParser.StmtGoToContext ctx) {
         System.out.println("goto -> " + ctx.children.get(0).getChild(1).getText());
         String aux = ctx.children.get(0).getChild(1).getText();
-        if (stmt.memoryLabels.containsKey(aux)) {
-            int line = stmt.memoryLabels.get(aux);
+        if (Stmt.memoryLabels.containsKey(aux)) {
+            int line = Stmt.memoryLabels.get(aux);
             GoTo goTo = new GoTo(aux);
             System.out.println("line ->" +  line);
         }
@@ -111,10 +110,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             NumOrId number = new NumOrId(aux);
             System.out.println("number" + number.number);
             Assign assign = new Assign(identificador, number);
-            stmt.memoryVariables.put(id, aux);
+            Stmt.memoryVariables.put(id, aux);
 
-            stmt.staments.add(assign);
-            System.out.println("Lisa stmts" + stmt.staments);
+            Stmt.staments.add(assign);
+            System.out.println("Lisa stmts" + Stmt.staments);
 
             return assign;
 
@@ -123,14 +122,14 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String aux =  ctx.children.get(2).getText();
             NumOrId id1 = new NumOrId (aux);
             System.out.println("id" + id1.id);
-            if (stmt.memoryVariables.containsKey(aux)) {
-                stmt.memoryVariables.put(id, stmt.memoryVariables.get(aux));
+            if (Stmt.memoryVariables.containsKey(aux)) {
+                Stmt.memoryVariables.put(id, Stmt.memoryVariables.get(aux));
             }
 
             Assign assign =  new Assign(identificador, id1);
 
-            stmt.staments.add(assign);
-            System.out.println("Lisa stmts" + stmt.staments);
+            Stmt.staments.add(assign);
+            System.out.println("Lisa stmts" + Stmt.staments);
 
             // stmt.memoryVariables.put(id, aux);
             return assign;
@@ -167,7 +166,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             System.out.println("operation " + operation.makeOperation());
             result = operation.makeOperation();
 
-            stmt.memoryVariables.put(idVar, result);
+            Stmt.memoryVariables.put(idVar, result);
 
             return operation;
 
@@ -176,9 +175,9 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String left =  ctx.children.get(2).getChild(0).getText();
 
-            if (stmt.memoryVariables.containsKey(left)) {
+            if (Stmt.memoryVariables.containsKey(left)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
 
                 signo = ctx.children.get(2).getChild(1).getText();
 
@@ -187,9 +186,9 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
                 Operation operation = new Operation(id, signo, number2);
                 result = operation.makeOperation();
-                stmt.memoryVariables.put(idVar, result);
+                Stmt.memoryVariables.put(idVar, result);
 
-                System.out.println("memory" + stmt.memoryVariables);
+                System.out.println("memory" + Stmt.memoryVariables);
                 return operation;
             }
 
@@ -204,14 +203,14 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String right =  ctx.children.get(2).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(right)) {
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(right));
+            if (Stmt.memoryVariables.containsKey(right)) {
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Operation operation = new Operation(number, signo, id);
                 result = operation.makeOperation();
-                stmt.memoryVariables.put(idVar, result);
+                Stmt.memoryVariables.put(idVar, result);
 
-                System.out.println("memory" + stmt.memoryVariables);
+                System.out.println("memory" + Stmt.memoryVariables);
 
                 return operation;
             }
@@ -222,17 +221,17 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String left =  ctx.children.get(2).getChild(0).getText();
             String right =  ctx.children.get(2).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(left) && stmt.memoryVariables.containsKey(right)) {
+            if (Stmt.memoryVariables.containsKey(left) && Stmt.memoryVariables.containsKey(right)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
                 signo = ctx.children.get(2).getChild(1).getText();
-                NumOrId id2 = new NumOrId(stmt.memoryVariables.get(right));
+                NumOrId id2 = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Operation operation = new Operation(id, signo, id2);
                 result = operation.makeOperation();
-                stmt.memoryVariables.put(idVar, result);
+                Stmt.memoryVariables.put(idVar, result);
 
-                System.out.println("memory" + stmt.memoryVariables);
+                System.out.println("memory" + Stmt.memoryVariables);
 
                 return operation;
 
@@ -293,13 +292,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
             String aux = ctx.children.get(2).getChild(1).getText();
-            if (stmt.memoryLabels.containsKey(aux)) {
-                int line = stmt.memoryLabels.get(aux);
+            if (Stmt.memoryLabels.containsKey(aux)) {
+                int line = Stmt.memoryLabels.get(aux);
                 GoTo goTo = new GoTo(aux);
                 System.out.println("line ->" +  line);
 
                 IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
-                stmt.staments.add(ifTrue);
+                Stmt.staments.add(ifTrue);
             }
 
 
@@ -311,9 +310,9 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String left =  ctx.children.get(1).getChild(0).getText();
 
-            if (stmt.memoryVariables.containsKey(left)) {
+            if (Stmt.memoryVariables.containsKey(left)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
 
                 signo = ctx.children.get(1).getChild(1).getText();
 
@@ -327,13 +326,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
-                if (stmt.memoryLabels.containsKey(aux)) {
-                    int line = stmt.memoryLabels.get(aux);
+                if (Stmt.memoryLabels.containsKey(aux)) {
+                    int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
                     IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
-                    stmt.staments.add(ifTrue);
+                    Stmt.staments.add(ifTrue);
                 }
 
                 return condition;
@@ -350,8 +349,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String right =  ctx.children.get(1).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(right)) {
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(right));
+            if (Stmt.memoryVariables.containsKey(right)) {
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Condition condition = new Condition(number, signo, id);
                 result = condition.makeCondition();
@@ -360,13 +359,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
-                if (stmt.memoryLabels.containsKey(aux)) {
-                    int line = stmt.memoryLabels.get(aux);
+                if (Stmt.memoryLabels.containsKey(aux)) {
+                    int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
                     IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
-                    stmt.staments.add(ifTrue);
+                    Stmt.staments.add(ifTrue);
                 }
 
 
@@ -379,11 +378,11 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String left =  ctx.children.get(1).getChild(0).getText();
             String right =  ctx.children.get(1).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(left) && stmt.memoryVariables.containsKey(right)) {
+            if (Stmt.memoryVariables.containsKey(left) && Stmt.memoryVariables.containsKey(right)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
                 signo = ctx.children.get(1).getChild(1).getText();
-                NumOrId id2 = new NumOrId(stmt.memoryVariables.get(right));
+                NumOrId id2 = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Condition condition = new Condition(id, signo, id2);
                 result = condition.makeCondition();
@@ -392,13 +391,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
-                if (stmt.memoryLabels.containsKey(aux)) {
-                    int line = stmt.memoryLabels.get(aux);
+                if (Stmt.memoryLabels.containsKey(aux)) {
+                    int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
                     IfTrue ifTrue = new IfTrue(condition, goTo, result, line);
-                    stmt.staments.add(ifTrue);
+                    Stmt.staments.add(ifTrue);
                 }
 
                 return condition;
@@ -440,13 +439,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
             String aux = ctx.children.get(2).getChild(1).getText();
-            if (stmt.memoryLabels.containsKey(aux)) {
-                int line = stmt.memoryLabels.get(aux);
+            if (Stmt.memoryLabels.containsKey(aux)) {
+                int line = Stmt.memoryLabels.get(aux);
                 GoTo goTo = new GoTo(aux);
                 System.out.println("line ->" +  line);
 
                 IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
-                stmt.staments.add(ifFalse);
+                Stmt.staments.add(ifFalse);
             }
 
 
@@ -457,9 +456,9 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String left =  ctx.children.get(1).getChild(0).getText();
 
-            if (stmt.memoryVariables.containsKey(left)) {
+            if (Stmt.memoryVariables.containsKey(left)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
 
                 signo = ctx.children.get(1).getChild(1).getText();
 
@@ -473,13 +472,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
-                if (stmt.memoryLabels.containsKey(aux)) {
-                    int line = stmt.memoryLabels.get(aux);
+                if (Stmt.memoryLabels.containsKey(aux)) {
+                    int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
                     IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
-                    stmt.staments.add(ifFalse);
+                    Stmt.staments.add(ifFalse);
                 }
 
                 return condition;
@@ -496,8 +495,8 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String right =  ctx.children.get(1).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(right)) {
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(right));
+            if (Stmt.memoryVariables.containsKey(right)) {
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Condition condition = new Condition(number, signo, id);
                 result = condition.makeCondition();
@@ -506,13 +505,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
-                if (stmt.memoryLabels.containsKey(aux)) {
-                    int line = stmt.memoryLabels.get(aux);
+                if (Stmt.memoryLabels.containsKey(aux)) {
+                    int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
                     IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
-                    stmt.staments.add(ifFalse);
+                    Stmt.staments.add(ifFalse);
                 }
 
 
@@ -525,11 +524,11 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String left =  ctx.children.get(1).getChild(0).getText();
             String right =  ctx.children.get(1).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(left) && stmt.memoryVariables.containsKey(right)) {
+            if (Stmt.memoryVariables.containsKey(left) && Stmt.memoryVariables.containsKey(right)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
                 signo = ctx.children.get(1).getChild(1).getText();
-                NumOrId id2 = new NumOrId(stmt.memoryVariables.get(right));
+                NumOrId id2 = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Condition condition = new Condition(id, signo, id2);
                 result = condition.makeCondition();
@@ -538,13 +537,13 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
                 System.out.println("goto -> " + ctx.children.get(2).getChild(1).getText());
 
                 String aux = ctx.children.get(2).getChild(1).getText();
-                if (stmt.memoryLabels.containsKey(aux)) {
-                    int line = stmt.memoryLabels.get(aux);
+                if (Stmt.memoryLabels.containsKey(aux)) {
+                    int line = Stmt.memoryLabels.get(aux);
                     GoTo goTo = new GoTo(aux);
                     System.out.println("line ->" +  line);
 
                     IfFalse ifFalse = new IfFalse(condition, goTo, result, line);
-                    stmt.staments.add(ifFalse);
+                    Stmt.staments.add(ifFalse);
                 }
 
                 return condition;
@@ -643,7 +642,7 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             Print print = new Print(aux);
             System.out.println("print " + aux);
-            stmt.staments.add(print);
+            Stmt.staments.add(print);
 
             return print;
 
@@ -652,10 +651,10 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String aux =  ctx.children.get(2).getText();
             NumOrId id1 = new NumOrId (aux);
 
-            if (stmt.memoryVariables.containsKey(aux)) {
-                Print print = new Print(stmt.memoryVariables.get(aux));
-                System.out.println("print " +  stmt.memoryVariables.get(aux));
-                stmt.staments.add(print);
+            if (Stmt.memoryVariables.containsKey(aux)) {
+                Print print = new Print(Stmt.memoryVariables.get(aux));
+                System.out.println("print " +  Stmt.memoryVariables.get(aux));
+                Stmt.staments.add(print);
             }
         }
 
@@ -808,12 +807,12 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             result = condition.makeCondition();
 
             NumOrId conditionResult = new NumOrId(returnInt(result));
-            stmt.memoryVariables.put(idString, returnInt(result));
+            Stmt.memoryVariables.put(idString, returnInt(result));
             System.out.println(":(" + idString + returnInt(result));
 
             Assign assign = new Assign(identificador, conditionResult );
 
-            stmt.staments.add(assign);
+            Stmt.staments.add(assign);
 
 
             return condition;
@@ -823,9 +822,9 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String left =  ctx.children.get(2).getChild(0).getText();
 
-            if (stmt.memoryVariables.containsKey(left)) {
+            if (Stmt.memoryVariables.containsKey(left)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
 
                 signo = ctx.children.get(2).getChild(1).getText();
 
@@ -837,12 +836,12 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
 
                 NumOrId conditionResult = new NumOrId(returnInt(result));
-                stmt.memoryVariables.put(idString, returnInt(result));
+                Stmt.memoryVariables.put(idString, returnInt(result));
                 System.out.println(":(" + idString + returnInt(result));
 
                 Assign assign = new Assign(identificador, conditionResult );
 
-                stmt.staments.add(assign);
+                Stmt.staments.add(assign);
 
                 return condition;
             }
@@ -858,20 +857,20 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
 
             String right =  ctx.children.get(2).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(right)) {
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(right));
+            if (Stmt.memoryVariables.containsKey(right)) {
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Condition condition = new Condition(number, signo, id);
                 result = condition.makeCondition();
 
 
                 NumOrId conditionResult = new NumOrId(returnInt(result));
-                stmt.memoryVariables.put(idString, returnInt(result));
+                Stmt.memoryVariables.put(idString, returnInt(result));
                 System.out.println(":(" + idString + returnInt(result));
 
                 Assign assign = new Assign(identificador, conditionResult );
 
-                stmt.staments.add(assign);
+                Stmt.staments.add(assign);
 
                 return condition;
             }
@@ -882,22 +881,22 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
             String left =  ctx.children.get(2).getChild(0).getText();
             String right =  ctx.children.get(2).getChild(2).getText();
 
-            if (stmt.memoryVariables.containsKey(left) && stmt.memoryVariables.containsKey(right)) {
+            if (Stmt.memoryVariables.containsKey(left) && Stmt.memoryVariables.containsKey(right)) {
 
-                NumOrId id = new NumOrId(stmt.memoryVariables.get(left));
+                NumOrId id = new NumOrId(Stmt.memoryVariables.get(left));
                 signo = ctx.children.get(2).getChild(1).getText();
-                NumOrId id2 = new NumOrId(stmt.memoryVariables.get(right));
+                NumOrId id2 = new NumOrId(Stmt.memoryVariables.get(right));
 
                 Condition condition = new Condition(id, signo, id2);
                 result = condition.makeCondition();
 
                 NumOrId conditionResult = new NumOrId(returnInt(result));
-                stmt.memoryVariables.put(idString, returnInt(result));
+                Stmt.memoryVariables.put(idString, returnInt(result));
                 System.out.println(":(" + idString + returnInt(result));
 
                 Assign assign = new Assign(identificador, conditionResult );
 
-                stmt.staments.add(assign);
+                Stmt.staments.add(assign);
 
                 return condition;
 
@@ -916,16 +915,16 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         String id = ctx.children.get(1).getText();
         String label = ctx.children.get(2).getChild(1).getText();
         System.out.println("line, result -> " + id + label);
-        if (stmt.memoryVariables.containsKey(id) && stmt.memoryLabels.containsKey(label)) {
-            int line = stmt.memoryLabels.get(label);
-            int result = stmt.memoryLabels.get(id);
+        if (Stmt.memoryVariables.containsKey(id) && Stmt.memoryLabels.containsKey(label)) {
+            int line = Stmt.memoryLabels.get(label);
+            int result = Stmt.memoryLabels.get(id);
             System.out.println("line, result" + line + result);
 
             GoTo goTo = new GoTo(label);
             System.out.println("line ->" +  line);
 
             IfTrue ifTrue = new IfTrue(goTo, returnBool(result), line);
-            stmt.staments.add(ifTrue);
+            Stmt.staments.add(ifTrue);
 
         }
 
@@ -948,16 +947,16 @@ public class MyVisitorTAC extends TACBaseVisitor<Stmt>{
         String id = ctx.children.get(1).getText();
         String label = ctx.children.get(2).getChild(1).getText();
         System.out.println("line, result -> " + id + label);
-        if (stmt.memoryVariables.containsKey(id) && stmt.memoryLabels.containsKey(label)) {
-            int line = stmt.memoryLabels.get(label);
-            int result = stmt.memoryLabels.get(id);
+        if (Stmt.memoryVariables.containsKey(id) && Stmt.memoryLabels.containsKey(label)) {
+            int line = Stmt.memoryLabels.get(label);
+            int result = Stmt.memoryLabels.get(id);
             System.out.println("line, result" + line + result);
 
             GoTo goTo = new GoTo(label);
             System.out.println("line ->" +  line);
 
             IfFalse ifFalse = new IfFalse(goTo, returnBool(result), line);
-            stmt.staments.add(ifFalse);
+            Stmt.staments.add(ifFalse);
 
         }
         return visitChildren(ctx);

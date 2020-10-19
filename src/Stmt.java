@@ -1,23 +1,23 @@
 import java.util.*;
 
-public  class Stmt {
+public abstract class Stmt {
 
-    public Map<String, Integer> memoryVariables = new HashMap<String, Integer>();
-    public Map<String, Integer> memoryLabels = new HashMap<String, Integer>();
-    public  List<Stmt> staments = new ArrayList<Stmt>();
+    public static Map<String, Integer> memoryVariables = new HashMap<String, Integer>();
+    public static Map<String, Integer> memoryLabels = new HashMap<String, Integer>();
+    public static List<Stmt> staments = new ArrayList<Stmt>();
 
-    public  int counter = 0;
+    public static int counter = 0;
 
-    public void eval () {
+    void eval () {
         counter ++;
     }
 
-     final void exec(){
+     static final void exec(){
 
         counter = 0;
-        System.out.println(staments.size());
+        System.out.println("size statements" + staments.size());
         while (counter < staments.size()){
-            System.out.println(counter);
+            System.out.println("counte stament while" + counter);
             staments.get(counter).eval();
         }
 

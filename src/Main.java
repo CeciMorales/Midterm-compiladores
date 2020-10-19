@@ -15,6 +15,8 @@ public class Main {
 
     public static void main(String [] args) throws Exception {
 
+
+
         try {
             out = new PrintWriter((args.length==0)?"salida.txt" : args[0]);
 
@@ -30,7 +32,7 @@ public class Main {
             MyVisitorTAC visitorTAC = new MyVisitorTAC();
             visitorTAC.visit(tree);
 
-            //Stmt.exec();
+            Stmt.exec();
 
             out.close();
         }

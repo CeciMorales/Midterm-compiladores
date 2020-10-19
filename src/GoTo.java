@@ -1,5 +1,5 @@
 public class GoTo extends Stmt {
-    Stmt stmt;
+
     Id id;
 
     public GoTo (String id) {
@@ -8,8 +8,8 @@ public class GoTo extends Stmt {
 
     public void eval(){
         super.eval();
-        if (stmt.memoryLabels.containsKey(id)){
-            stmt.counter = stmt.memoryLabels.get(id);
+        if (Stmt.memoryLabels.containsKey(id)){
+            Stmt.counter = Stmt.memoryLabels.get(id);
         }
 
     }
