@@ -22,7 +22,7 @@ public abstract class Stmt {
 
         System.out.println("memory variables" + memoryVariables);
         System.out.println("memory labels" + memoryLabels);
-        System.out.println("ista statements" + staments);
+        System.out.println("lista statements" + staments);
 
 
     }
